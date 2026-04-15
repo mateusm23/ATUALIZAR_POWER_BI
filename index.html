@@ -45,425 +45,274 @@
       gap: 24px;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
-    }
-
-    .logo-badge {
-      background: var(--azul);
-      color: #fff;
-      font-weight: 900;
-      font-size: 14px;
-      padding: 5px 11px;
-      border-radius: 4px;
-      letter-spacing: 1px;
-    }
-
+    .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .logo-badge { background: var(--azul); color: #fff; font-weight: 900; font-size: 14px; padding: 5px 11px; border-radius: 4px; letter-spacing: 1px; }
     .logo-title    { font-size: 15px; font-weight: 600; line-height: 1.2; }
     .logo-subtitle { font-size: 11px; color: var(--mut); }
 
     /* ── NAV TABS ────────────────────────────────────────────── */
-    .nav-tabs {
-      display: flex;
-      height: 100%;
-      align-items: flex-end;
-      gap: 2px;
-    }
+    .nav-tabs { display: flex; height: 100%; align-items: flex-end; gap: 2px; }
 
     .nav-tab {
-      background: none;
-      border: none;
-      color: var(--mut);
-      padding: 10px 20px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
+      background: none; border: none; color: var(--mut);
+      padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+      border-bottom: 2px solid transparent; margin-bottom: -2px;
       transition: color .2s, border-color .2s;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      white-space: nowrap;
-      font-family: inherit;
+      display: flex; align-items: center; gap: 6px;
+      white-space: nowrap; font-family: inherit;
     }
 
-    .nav-tab:hover          { color: var(--txt); }
-    .nav-tab.active         { color: var(--azul); border-bottom-color: var(--azul); }
-
-    .lock-icon { color: var(--mut); opacity: .6; flex-shrink: 0; }
+    .nav-tab:hover   { color: var(--txt); }
+    .nav-tab.active  { color: var(--azul); border-bottom-color: var(--azul); }
+    .lock-icon       { color: var(--mut); opacity: .5; flex-shrink: 0; }
 
     /* ── MAIN ────────────────────────────────────────────────── */
-    main {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 32px 24px;
-    }
-
+    main { max-width: 1320px; margin: 0 auto; padding: 32px 24px; }
     .tab-pane        { display: none; }
     .tab-pane.active { display: block; }
 
     /* ── SECTION LABEL ───────────────────────────────────────── */
     .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--mut);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--mut);
+      display: flex; align-items: center; gap: 8px;
     }
-
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--bd);
-    }
+    .section-label::after { content:''; flex:1; height:1px; background: var(--bd); }
 
     /* ════════════════════════════════════════════════════════════
-       MODAL DE AUTENTICAÇÃO
+       MODAL — AUTH
     ════════════════════════════════════════════════════════════ */
     .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.65);
-      backdrop-filter: blur(4px);
-      z-index: 500;
-      align-items: center;
-      justify-content: center;
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.65); backdrop-filter: blur(4px);
+      z-index: 500; align-items: center; justify-content: center;
     }
-
     .modal-overlay.show { display: flex; }
 
     .modal-card {
-      background: var(--s1);
-      border: 1px solid var(--bd);
-      border-radius: var(--r);
-      padding: 36px 40px;
-      width: 100%;
-      max-width: 360px;
-      text-align: center;
+      background: var(--s1); border: 1px solid var(--bd); border-radius: var(--r);
+      padding: 36px 40px; width: 100%; max-width: 360px; text-align: center;
       box-shadow: 0 20px 60px rgba(0,0,0,.5);
     }
 
     .modal-icon {
-      width: 52px; height: 52px;
-      background: rgba(59,130,246,.10);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 16px;
-      color: var(--azul);
+      width: 52px; height: 52px; background: rgba(59,130,246,.10);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px; color: var(--azul);
     }
 
     .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
     .modal-sub   { font-size: 13px; color: var(--mut); margin-bottom: 24px; line-height: 1.5; }
 
     .modal-input {
-      width: 100%;
-      padding: 11px 14px;
-      border: 1.5px solid var(--bd);
-      border-radius: 8px;
-      font-size: 16px;
-      color: var(--txt);
-      background: var(--s2);
-      outline: none;
-      font-family: inherit;
-      text-align: center;
-      letter-spacing: 6px;
-      margin-bottom: 10px;
-      transition: border-color .2s, box-shadow .2s;
+      width: 100%; padding: 11px 14px; border: 1.5px solid var(--bd);
+      border-radius: 8px; font-size: 16px; color: var(--txt); background: var(--s2);
+      outline: none; font-family: inherit; text-align: center; letter-spacing: 6px;
+      margin-bottom: 10px; transition: border-color .2s, box-shadow .2s;
     }
+    .modal-input:focus { border-color: var(--azul); box-shadow: 0 0 0 3px rgba(59,130,246,.15); }
+    .modal-input.shake { animation: shake .3s ease; border-color: var(--red); }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
 
-    .modal-input:focus {
-      border-color: var(--azul);
-      box-shadow: 0 0 0 3px rgba(59,130,246,.15);
-    }
-
-    .modal-input.shake {
-      animation: shake .3s ease;
-      border-color: var(--red);
-    }
-
-    @keyframes shake {
-      0%,100% { transform: translateX(0); }
-      20%,60%  { transform: translateX(-6px); }
-      40%,80%  { transform: translateX(6px); }
-    }
-
-    .modal-error {
-      font-size: 12px;
-      color: var(--red);
-      height: 16px;
-      margin-bottom: 10px;
-    }
+    .modal-error { font-size: 12px; color: var(--red); height: 16px; margin-bottom: 10px; visibility: hidden; }
 
     .modal-cancel {
-      background: none;
-      border: none;
-      color: var(--mut);
-      font-size: 12px;
-      cursor: pointer;
-      margin-top: 14px;
-      font-family: inherit;
-      transition: color .2s;
+      background: none; border: none; color: var(--mut); font-size: 12px;
+      cursor: pointer; margin-top: 14px; font-family: inherit; transition: color .2s;
+    }
+    .modal-cancel:hover { color: var(--txt); }
+
+    /* ════════════════════════════════════════════════════════════
+       MODAL — DATASET (novo / editar)
+    ════════════════════════════════════════════════════════════ */
+    .ds-modal-card {
+      background: var(--s1); border: 1px solid var(--bd); border-radius: var(--r);
+      padding: 32px 36px; width: 100%; max-width: 520px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
     }
 
-    .modal-cancel:hover { color: var(--txt); }
+    .ds-modal-header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    }
+
+    .ds-modal-icon {
+      width: 40px; height: 40px; background: rgba(59,130,246,.10);
+      border-radius: 9px; display: flex; align-items: center; justify-content: center;
+      color: var(--azul); flex-shrink: 0;
+    }
+
+    .ds-modal-title  { font-size: 17px; font-weight: 700; }
+    .ds-modal-sub    { font-size: 12px; color: var(--mut); margin-top: 2px; }
+
+    .ds-field { margin-bottom: 16px; }
+
+    .ds-field label {
+      display: block; font-size: 11px; font-weight: 700; letter-spacing: .7px;
+      text-transform: uppercase; color: var(--mut); margin-bottom: 6px;
+    }
+
+    .ds-field input,
+    .ds-field textarea {
+      width: 100%; padding: 10px 13px; border: 1.5px solid var(--bd);
+      border-radius: 8px; font-size: 13px; color: var(--txt); background: var(--s2);
+      outline: none; font-family: inherit; transition: border-color .2s, box-shadow .2s;
+      resize: vertical;
+    }
+
+    .ds-field input::placeholder,
+    .ds-field textarea::placeholder { color: var(--s3); }
+
+    .ds-field input:focus,
+    .ds-field textarea:focus {
+      border-color: var(--azul);
+      box-shadow: 0 0 0 3px rgba(59,130,246,.10);
+    }
+
+    .ds-field-hint { font-size: 11px; color: var(--mut); margin-top: 5px; }
+
+    .ds-modal-footer {
+      display: flex; align-items: center; justify-content: flex-end;
+      gap: 10px; margin-top: 24px;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       BOTÕES COMUNS
+    ════════════════════════════════════════════════════════════ */
+    .btn-primary {
+      background: var(--azul); color: #fff; border: none; padding: 10px 20px;
+      border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer;
+      font-family: inherit; display: inline-flex; align-items: center; gap: 7px;
+      transition: background .2s;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--azul2); }
+    .btn-primary:disabled              { opacity: .4; cursor: not-allowed; }
+
+    .btn-primary-full {
+      width: 100%; display: flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 12px;
+    }
+
+    .btn-ghost {
+      background: none; border: 1.5px solid var(--bd); color: var(--mut);
+      padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--azul); color: var(--azul); }
+
+    .btn-danger {
+      background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.3);
+      color: var(--red); padding: 7px 14px; border-radius: 7px;
+      font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+      display: inline-flex; align-items: center; gap: 5px; transition: background .2s;
+    }
+    .btn-danger:hover { background: rgba(239,68,68,.22); }
+
+    .btn-icon {
+      background: none; border: 1px solid var(--bd); color: var(--mut);
+      width: 32px; height: 32px; border-radius: 6px; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .btn-icon:hover        { border-color: var(--azul); color: var(--azul); }
+    .btn-icon.danger:hover { border-color: var(--red);  color: var(--red); background: rgba(239,68,68,.08); }
 
     /* ════════════════════════════════════════════════════════════
        ABA — SOLICITAR
     ════════════════════════════════════════════════════════════ */
-    .form-wrap {
-      display: flex;
-      justify-content: center;
-      padding-top: 12px;
-    }
+    .form-wrap { display: flex; justify-content: center; padding-top: 12px; }
 
     .form-card {
-      background: var(--s1);
-      border: 1px solid var(--bd);
-      border-radius: var(--r);
-      padding: 36px 40px;
-      width: 100%;
-      max-width: 460px;
+      background: var(--s1); border: 1px solid var(--bd); border-radius: var(--r);
+      padding: 36px 40px; width: 100%; max-width: 460px;
     }
 
     .form-icon {
-      width: 42px; height: 42px;
-      background: rgba(59,130,246,.10);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--azul);
-      margin-bottom: 14px;
+      width: 42px; height: 42px; background: rgba(59,130,246,.10); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; color: var(--azul); margin-bottom: 14px;
     }
 
     .form-title    { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
     .form-subtitle { font-size: 13px; color: var(--mut); margin-bottom: 28px; line-height: 1.5; }
-
-    .form-group { margin-bottom: 18px; }
+    .form-group    { margin-bottom: 18px; }
 
     .form-label {
-      display: block;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .7px;
-      text-transform: uppercase;
-      color: var(--mut);
-      margin-bottom: 7px;
+      display: block; font-size: 11px; font-weight: 700; letter-spacing: .7px;
+      text-transform: uppercase; color: var(--mut); margin-bottom: 7px;
     }
 
-    .form-input,
-    .form-select {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid var(--bd);
-      border-radius: 8px;
-      font-size: 14px;
-      color: var(--txt);
-      background: var(--s2);
-      outline: none;
-      font-family: inherit;
-      appearance: none;
-      transition: border-color .2s, background .2s;
+    .form-input, .form-select {
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--bd); border-radius: 8px;
+      font-size: 14px; color: var(--txt); background: var(--s2); outline: none;
+      font-family: inherit; appearance: none; transition: border-color .2s, background .2s;
     }
-
     .form-input::placeholder { color: var(--s3); }
-
-    .form-input:focus,
-    .form-select:focus {
-      border-color: var(--azul);
-      background: var(--s1);
+    .form-input:focus, .form-select:focus {
+      border-color: var(--azul); background: var(--s1);
       box-shadow: 0 0 0 3px rgba(59,130,246,.10);
     }
 
-    .select-wrap         { position: relative; }
-    .select-wrap::after  {
-      content: '';
-      position: absolute;
-      right: 14px; top: 50%;
-      transform: translateY(-50%);
-      border: 5px solid transparent;
-      border-top-color: var(--mut);
-      pointer-events: none;
+    .select-wrap       { position: relative; }
+    .select-wrap::after {
+      content:''; position: absolute; right: 14px; top: 50%;
+      transform: translateY(-50%); border: 5px solid transparent;
+      border-top-color: var(--mut); pointer-events: none;
     }
 
     .datetime-field {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid var(--bd);
-      border-radius: 8px;
-      font-size: 14px;
-      color: var(--mut);
-      background: var(--s2);
-      display: flex;
-      align-items: center;
-      gap: 9px;
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--bd); border-radius: 8px;
+      font-size: 14px; color: var(--mut); background: var(--s2);
+      display: flex; align-items: center; gap: 9px;
     }
-
-    .btn-primary {
-      width: 100%;
-      background: var(--azul);
-      color: #fff;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 8px;
-      font-family: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: background .2s;
-    }
-
-    .btn-primary:hover:not(:disabled) { background: var(--azul2); }
-    .btn-primary:disabled              { opacity: .4; cursor: not-allowed; }
 
     /* success */
     .success-view  { display: none; text-align: center; }
-
     .success-circle {
-      width: 56px; height: 56px;
-      background: rgba(16,185,129,.12);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 16px;
-      color: var(--grn);
+      width: 56px; height: 56px; background: rgba(16,185,129,.12); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--grn);
     }
-
     .success-title  { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
     .success-detail { font-size: 13px; color: var(--mut); margin-bottom: 22px; line-height: 1.6; }
 
     .info-box {
-      background: rgba(59,130,246,.06);
-      border: 1px solid rgba(59,130,246,.2);
-      border-radius: 8px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      text-align: left;
-      color: var(--azul);
+      background: rgba(59,130,246,.06); border: 1px solid rgba(59,130,246,.2);
+      border-radius: 8px; padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 10px; text-align: left; color: var(--azul);
     }
-
     .info-box-text        { font-size: 13px; line-height: 1.5; color: var(--txt); }
     .info-box-text strong { color: var(--azul); display: block; margin-bottom: 2px; }
 
     .btn-link {
-      background: none;
-      border: 1.5px solid var(--bd);
-      color: var(--mut);
-      padding: 8px 20px;
-      border-radius: 7px;
-      font-size: 13px;
-      cursor: pointer;
-      font-family: inherit;
-      margin-top: 18px;
-      transition: border-color .2s, color .2s;
+      background: none; border: 1.5px solid var(--bd); color: var(--mut);
+      padding: 8px 20px; border-radius: 7px; font-size: 13px; cursor: pointer;
+      font-family: inherit; margin-top: 18px; transition: border-color .2s, color .2s;
     }
-
     .btn-link:hover { border-color: var(--azul); color: var(--azul); }
 
     /* ════════════════════════════════════════════════════════════
        ABA — PAINEL
     ════════════════════════════════════════════════════════════ */
     .painel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px;
     }
-
     .painel-header .section-label { margin-bottom: 0; flex: 1; }
 
-    .btn-secondary {
-      background: var(--azul);
-      color: #fff;
-      border: none;
-      padding: 8px 18px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 12px;
-      cursor: pointer;
-      font-family: inherit;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      flex-shrink: 0;
-      transition: background .2s;
-    }
-
-    .btn-secondary:hover            { background: var(--azul2); }
-    .btn-secondary:disabled         { opacity: .4; cursor: not-allowed; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 14px;
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
 
     .card {
-      background: var(--s1);
-      border: 1px solid var(--bd);
-      border-radius: var(--r);
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transition: border-color .2s;
+      background: var(--s1); border: 1px solid var(--bd); border-radius: var(--r);
+      padding: 18px; display: flex; flex-direction: column; gap: 12px; transition: border-color .2s;
     }
+    .card:hover   { border-color: #3a4a60; }
+    .card.running { border-color: var(--azul); }
+    .card.success { border-color: var(--grn); }
+    .card.error   { border-color: var(--red); }
 
-    .card:hover          { border-color: #3a4a60; }
-    .card.running        { border-color: var(--azul); }
-    .card.success        { border-color: var(--grn); }
-    .card.error          { border-color: var(--red); }
+    .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .card-info   { flex: 1; min-width: 0; }
+    .card-name   { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-ws     { font-size: 11px; color: var(--mut); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .card-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .card-info { flex: 1; min-width: 0; }
-
-    .card-name {
-      font-size: 13px;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .card-ws {
-      font-size: 11px;
-      color: var(--mut);
-      margin-top: 3px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .badge {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .6px;
-      padding: 2px 8px;
-      border-radius: 20px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
+    .badge { font-size: 10px; font-weight: 700; letter-spacing: .6px; padding: 2px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
     .badge-idle    { background: var(--s3); color: var(--mut); }
     .badge-running { background: rgba(59,130,246,.15);  color: var(--azul); border: 1px solid rgba(59,130,246,.3); }
     .badge-success { background: rgba(16,185,129,.15);  color: var(--grn);  border: 1px solid rgba(16,185,129,.3); }
@@ -472,37 +321,19 @@
     .progress-wrap { height: 2px; background: var(--s3); border-radius: 2px; overflow: hidden; }
     .progress-bar  { height: 100%; width: 0%; border-radius: 2px; transition: width .4s; }
     .progress-bar.running { background: var(--azul); animation: slide 1.4s infinite; width: 100%; }
-    .progress-bar.success { background: var(--grn);  width: 100%; }
-    .progress-bar.error   { background: var(--red);  width: 100%; }
+    .progress-bar.success { background: var(--grn); width: 100%; }
+    .progress-bar.error   { background: var(--red); width: 100%; }
+    @keyframes slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
 
-    @keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .card-ts { font-size: 11px; color: var(--mut); }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .card-ts     { font-size: 11px; color: var(--mut); }
 
     .btn-refresh {
-      background: var(--s2);
-      border: 1px solid var(--bd);
-      color: var(--txt);
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: background .2s, border-color .2s;
-      white-space: nowrap;
+      background: var(--s2); border: 1px solid var(--bd); color: var(--txt);
+      padding: 6px 14px; border-radius: 6px; font-size: 11px; font-weight: 600;
+      cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 5px;
+      transition: background .2s, border-color .2s; white-space: nowrap;
     }
-
     .btn-refresh:hover:not(:disabled)  { background: var(--s3); border-color: #4a5568; }
     .btn-refresh:disabled              { opacity: .4; cursor: not-allowed; }
     .btn-refresh.success               { border-color: var(--grn); color: var(--grn); }
@@ -513,173 +344,36 @@
     /* ════════════════════════════════════════════════════════════
        ABA — DASHBOARD
     ════════════════════════════════════════════════════════════ */
-
-    /* KPIs */
-    .kpi-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 24px;
-    }
+    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
 
     .kpi-card {
-      background: var(--s1);
-      border: 1px solid var(--bd);
-      border-radius: var(--r);
-      padding: 18px 20px;
+      background: var(--s1); border: 1px solid var(--bd); border-radius: var(--r); padding: 18px 20px;
     }
+    .kpi-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mut); margin-bottom: 8px; }
+    .kpi-value { font-size: 34px; font-weight: 800; color: var(--azul); line-height: 1; margin-bottom: 4px; }
+    .kpi-sub   { font-size: 11px; color: var(--mut); }
 
-    .kpi-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--mut);
-      margin-bottom: 8px;
-    }
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
 
-    .kpi-value {
-      font-size: 34px;
-      font-weight: 800;
-      color: var(--azul);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
+    .chart-card { background: var(--s1); border: 1px solid var(--bd); border-radius: var(--r); padding: 20px; }
+    .chart-title { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mut); margin-bottom: 16px; }
 
-    .kpi-sub { font-size: 11px; color: var(--mut); }
+    .bar-row    { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+    .bar-label  { font-size: 12px; color: var(--txt); width: 170px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track  { flex: 1; height: 16px; background: var(--s3); border-radius: 3px; overflow: hidden; }
+    .bar-fill   { height: 100%; background: var(--azul); border-radius: 3px; min-width: 4px; }
+    .bar-value  { font-size: 12px; font-weight: 700; color: var(--txt); width: 30px; text-align: right; flex-shrink: 0; }
 
-    /* Charts */
-    .charts-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-
-    .chart-card {
-      background: var(--s1);
-      border: 1px solid var(--bd);
-      border-radius: var(--r);
-      padding: 20px;
-    }
-
-    .chart-title {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--mut);
-      margin-bottom: 16px;
-    }
-
-    .bar-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 9px;
-    }
-
-    .bar-label {
-      font-size: 12px;
-      color: var(--txt);
-      width: 170px;
-      flex-shrink: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .bar-track {
-      flex: 1;
-      height: 16px;
-      background: var(--s3);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .bar-fill {
-      height: 100%;
-      background: var(--azul);
-      border-radius: 3px;
-      min-width: 4px;
-      transition: width .6s ease;
-    }
-
-    .bar-value {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--txt);
-      width: 30px;
-      text-align: right;
-      flex-shrink: 0;
-    }
-
-    /* Heat Map */
-    .heatmap-card {
-      background: var(--s1);
-      border: 1px solid var(--bd);
-      border-radius: var(--r);
-      padding: 20px;
-      margin-bottom: 24px;
-    }
-
-    .heatmap-title {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--mut);
-      margin-bottom: 16px;
-    }
-
+    .heatmap-card  { background: var(--s1); border: 1px solid var(--bd); border-radius: var(--r); padding: 20px; margin-bottom: 24px; }
+    .heatmap-title { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mut); margin-bottom: 16px; }
     .heatmap-scroll { overflow-x: auto; padding-bottom: 4px; }
 
-    .hm-table {
-      border-collapse: separate;
-      border-spacing: 3px;
-      white-space: nowrap;
-    }
-
+    .hm-table { border-collapse: separate; border-spacing: 3px; white-space: nowrap; }
     .hm-blank  { min-width: 190px; }
-
-    .hm-month {
-      text-align: center;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--mut);
-      padding: 0 4px 8px;
-    }
-
-    .hm-day {
-      text-align: center;
-      font-size: 9px;
-      color: var(--s3);
-      padding: 0 0 4px;
-      width: 22px;
-    }
-
-    .hm-name {
-      text-align: right;
-      padding: 0 12px 0 0;
-      font-size: 12px;
-      color: var(--txt);
-      font-weight: 500;
-      position: sticky;
-      left: 0;
-      background: var(--s1);
-      z-index: 2;
-      min-width: 190px;
-    }
-
-    .hm-cell {
-      width: 22px;
-      height: 22px;
-      border-radius: 3px;
-      cursor: default;
-      position: relative;
-    }
+    .hm-month  { text-align: center; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mut); padding: 0 4px 8px; }
+    .hm-day    { text-align: center; font-size: 9px; color: var(--s3); padding: 0 0 4px; width: 22px; }
+    .hm-name   { text-align: right; padding: 0 12px 0 0; font-size: 12px; color: var(--txt); font-weight: 500; position: sticky; left: 0; background: var(--s1); z-index: 2; min-width: 190px; }
+    .hm-cell   { width: 22px; height: 22px; border-radius: 3px; cursor: default; position: relative; }
 
     .hm-0 { background: var(--s3); }
     .hm-1 { background: rgba(59,130,246,.18); }
@@ -688,93 +382,193 @@
     .hm-4 { background: rgba(59,130,246,.95); }
 
     .hm-cell:hover::after {
-      content: attr(data-tip);
-      position: absolute;
-      bottom: calc(100% + 6px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--s3);
-      color: var(--txt);
-      border: 1px solid var(--bd);
-      font-size: 10px;
-      padding: 4px 8px;
-      border-radius: 4px;
-      white-space: nowrap;
-      pointer-events: none;
-      z-index: 20;
+      content: attr(data-tip); position: absolute; bottom: calc(100% + 6px); left: 50%;
+      transform: translateX(-50%); background: var(--s3); color: var(--txt);
+      border: 1px solid var(--bd); font-size: 10px; padding: 4px 8px; border-radius: 4px;
+      white-space: nowrap; pointer-events: none; z-index: 20;
     }
 
-    .hm-legend {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: 12px;
-      font-size: 10px;
-      color: var(--mut);
-    }
-
+    .hm-legend { display: flex; align-items: center; gap: 5px; margin-top: 12px; font-size: 10px; color: var(--mut); }
     .hm-legend-cell { width: 13px; height: 13px; border-radius: 2px; }
+
+    /* ════════════════════════════════════════════════════════════
+       ABA — CONFIGURAÇÕES
+    ════════════════════════════════════════════════════════════ */
+    .cfg-section { margin-bottom: 20px; }
+
+    .cfg-card {
+      background: var(--s1); border: 1px solid var(--bd); border-radius: var(--r); overflow: hidden;
+    }
+
+    .cfg-card-header {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 20px 24px; border-bottom: 1px solid var(--bd);
+    }
+
+    .cfg-card-title { font-size: 14px; font-weight: 700; color: var(--txt); }
+    .cfg-card-sub   { font-size: 12px; color: var(--mut); margin-top: 2px; }
+
+    /* Tabela de datasets */
+    .ds-table { width: 100%; }
+
+    .ds-table-head {
+      display: grid;
+      grid-template-columns: 1fr 200px 130px 80px;
+      gap: 0;
+      padding: 10px 24px;
+      font-size: 10px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--mut);
+      border-bottom: 1px solid var(--bd);
+    }
+
+    .ds-row {
+      display: grid;
+      grid-template-columns: 1fr 200px 130px 80px;
+      gap: 0;
+      padding: 14px 24px;
+      align-items: center;
+      border-bottom: 1px solid var(--bd);
+      transition: background .15s;
+    }
+
+    .ds-row:last-child     { border-bottom: none; }
+    .ds-row:hover          { background: rgba(255,255,255,.02); }
+    .ds-row.confirming     { background: rgba(239,68,68,.06); border-color: rgba(239,68,68,.2); }
+
+    .ds-row-name { font-size: 13px; font-weight: 600; color: var(--txt); }
+    .ds-row-ws   { font-size: 11px; color: var(--mut); margin-top: 2px; }
+
+    .url-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px;
+    }
+    .url-ok    { background: rgba(16,185,129,.12); color: var(--grn); border: 1px solid rgba(16,185,129,.25); }
+    .url-empty { background: var(--s3); color: var(--mut); }
+
+    .ds-row-actions { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
+
+    .ds-confirm {
+      display: flex; align-items: center; gap: 12px; grid-column: 1 / -1;
+      font-size: 12px; color: var(--red);
+    }
+
+    .ds-confirm-msg { flex: 1; }
+
+    .ds-empty {
+      padding: 36px 24px; text-align: center; font-size: 13px; color: var(--mut);
+    }
+
+    /* Período do dashboard */
+    .period-body { padding: 20px 24px; }
+
+    .period-row {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px;
+    }
+
+    .period-group { display: flex; align-items: center; gap: 8px; }
+    .period-group label { font-size: 12px; font-weight: 700; color: var(--mut); white-space: nowrap; }
+
+    .period-select {
+      padding: 8px 12px; border: 1.5px solid var(--bd); border-radius: 7px;
+      font-size: 13px; color: var(--txt); background: var(--s2); outline: none;
+      font-family: inherit; appearance: none; cursor: pointer;
+      transition: border-color .2s; min-width: 110px;
+    }
+    .period-select:focus { border-color: var(--azul); }
+
+    .period-sep { font-size: 18px; color: var(--mut); }
 
     /* ── TOAST ───────────────────────────────────────────────── */
     #toast {
-      position: fixed;
-      bottom: 28px; right: 28px;
-      background: var(--s2);
-      border: 1px solid var(--bd);
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 13px;
-      max-width: 300px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity .25s, transform .25s;
-      pointer-events: none;
-      z-index: 999;
+      position: fixed; bottom: 28px; right: 28px; background: var(--s2);
+      border: 1px solid var(--bd); border-radius: 8px; padding: 12px 16px;
+      font-size: 13px; max-width: 300px; opacity: 0; transform: translateY(10px);
+      transition: opacity .25s, transform .25s; pointer-events: none; z-index: 999;
     }
-
     #toast.show { opacity: 1; transform: translateY(0); }
 
     /* ── RESPONSIVE ──────────────────────────────────────────── */
     @media (max-width: 900px) {
       .kpi-row    { grid-template-columns: repeat(2, 1fr); }
       .charts-row { grid-template-columns: 1fr; }
+      .ds-table-head, .ds-row { grid-template-columns: 1fr 100px 80px; }
+      .ds-table-head > *:nth-child(2), .ds-row > *:nth-child(2) { display: none; }
     }
 
     @media (max-width: 600px) {
-      header     { padding: 0 16px; gap: 12px; }
-      .nav-tab   { padding: 10px 12px; font-size: 12px; }
+      header      { padding: 0 14px; gap: 10px; }
+      .nav-tab    { padding: 10px 10px; font-size: 11px; gap: 4px; }
       .logo-title { display: none; }
-      main       { padding: 20px 14px; }
-      .form-card { padding: 24px 20px; }
-      .modal-card { padding: 28px 20px; }
+      main        { padding: 20px 14px; }
+      .form-card  { padding: 24px 20px; }
+      .modal-card, .ds-modal-card { padding: 24px 20px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ── MODAL DE AUTENTICAÇÃO ──────────────────────────────── -->
+  <!-- ════════════════════════════════════════════════════════
+       MODAL — AUTENTICAÇÃO
+  ════════════════════════════════════════════════════════ -->
   <div class="modal-overlay" id="loginModal">
     <div class="modal-card">
       <div class="modal-icon">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
       </div>
       <div class="modal-title">Área Restrita</div>
       <div class="modal-sub">Digite a senha para acessar esta seção.</div>
       <input class="modal-input" type="password" id="loginInput"
-             placeholder="••••••••"
-             onkeydown="if(event.key==='Enter') handleLogin()"
-             autocomplete="off" />
+             placeholder="••••••••" onkeydown="if(event.key==='Enter')handleLogin()" autocomplete="off" />
       <div class="modal-error" id="loginError">Senha incorreta. Tente novamente.</div>
-      <button class="btn-primary" onclick="handleLogin()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
+      <button class="btn-primary btn-primary-full" onclick="handleLogin()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         Entrar
       </button>
       <button class="modal-cancel" onclick="closeLoginModal()">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       MODAL — CADASTRO / EDIÇÃO DE DATASET
+  ════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="datasetModal">
+    <div class="ds-modal-card">
+      <div class="ds-modal-header">
+        <div class="ds-modal-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="5" rx="9" ry="3"/>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="ds-modal-title" id="dsModalTitle">Nova Obra</div>
+          <div class="ds-modal-sub" id="dsModalSub">Preencha os dados do novo dataset.</div>
+        </div>
+      </div>
+
+      <div class="ds-field">
+        <label>Nome da Obra *</label>
+        <input type="text" id="dsInputName" placeholder="Ex: OBRA ALFA — DRE" />
+      </div>
+      <div class="ds-field">
+        <label>Workspace</label>
+        <input type="text" id="dsInputWorkspace" placeholder="Ex: OBRAS - TRINUS" />
+      </div>
+      <div class="ds-field">
+        <label>URL do Flow (Power Automate)</label>
+        <textarea id="dsInputUrl" rows="3" placeholder="https://...powerautomate..."></textarea>
+        <div class="ds-field-hint">Deixe em branco se o flow ainda não foi criado.</div>
+      </div>
+
+      <div class="ds-modal-footer">
+        <button class="btn-ghost" onclick="closeDatasetModal()">Cancelar</button>
+        <button class="btn-primary" onclick="salvarDataset()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Salvar Obra
+        </button>
+      </div>
     </div>
   </div>
 
@@ -795,7 +589,7 @@
         </svg>
         Solicitar
       </button>
-      <button class="nav-tab" id="tab-painel" onclick="setTab(this,'painel')">
+      <button class="nav-tab" onclick="setTab(this,'painel')">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
           <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
@@ -805,14 +599,22 @@
           <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
       </button>
-      <button class="nav-tab" id="tab-dashboard" onclick="setTab(this,'dashboard')">
+      <button class="nav-tab" onclick="setTab(this,'dashboard')">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="20" x2="18" y2="10"/>
-          <line x1="12" y1="20" x2="12" y2="4"/>
-          <line x1="6"  y1="20" x2="6"  y2="14"/>
+          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
         </svg>
         Dashboard
         <svg class="lock-icon" id="lock-dashboard" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </button>
+      <button class="nav-tab" onclick="setTab(this,'config')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        Configurações
+        <svg class="lock-icon" id="lock-config" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
       </button>
@@ -831,8 +633,7 @@
           <div id="formView">
             <div class="form-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <polyline points="23 4 23 10 17 10"/>
-                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
               </svg>
             </div>
             <div class="form-title">Solicitar Atualização</div>
@@ -840,8 +641,7 @@
 
             <div class="form-group">
               <label class="form-label">Seu nome</label>
-              <input class="form-input" type="text" id="inputNome"
-                     placeholder="Ex: João Silva" autocomplete="name" />
+              <input class="form-input" type="text" id="inputNome" placeholder="Ex: João Silva" autocomplete="name" />
             </div>
 
             <div class="form-group">
@@ -863,10 +663,9 @@
               </div>
             </div>
 
-            <button class="btn-primary" id="btnSubmit" onclick="handleSubmit()">
+            <button class="btn-primary btn-primary-full" id="btnSubmit" onclick="handleSubmit()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="23 4 23 10 17 10"/>
-                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
               </svg>
               Solicitar Atualização
             </button>
@@ -902,10 +701,9 @@
     <div class="tab-pane" id="pane-painel">
       <div class="painel-header">
         <div class="section-label">Datasets disponíveis</div>
-        <button class="btn-secondary" id="btnAll" onclick="refreshAll()">
+        <button class="btn-primary" id="btnAll" onclick="refreshAll()">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="23 4 23 10 17 10"/>
-            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
           </svg>
           Atualizar Todos
         </button>
@@ -949,47 +747,156 @@
       </div>
     </div>
 
+    <!-- ════════════════════════════════════════════════════════
+         ABA — CONFIGURAÇÕES
+    ════════════════════════════════════════════════════════ -->
+    <div class="tab-pane" id="pane-config">
+
+      <!-- Seção 1: Obras e Datasets -->
+      <div class="cfg-section">
+        <div class="cfg-card">
+          <div class="cfg-card-header">
+            <div>
+              <div class="cfg-card-title">Obras e Datasets</div>
+              <div class="cfg-card-sub">Gerencie os Power BI disponíveis para atualização.</div>
+            </div>
+            <button class="btn-primary" onclick="abrirModalDataset(null)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Nova Obra
+            </button>
+          </div>
+
+          <div class="ds-table">
+            <div class="ds-table-head">
+              <div>Nome / Workspace</div>
+              <div>Workspace</div>
+              <div>URL do Flow</div>
+              <div style="text-align:right">Ações</div>
+            </div>
+            <div id="configTableBody"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 2: Período do Dashboard -->
+      <div class="cfg-section">
+        <div class="cfg-card">
+          <div class="cfg-card-header">
+            <div>
+              <div class="cfg-card-title">Período do Dashboard</div>
+              <div class="cfg-card-sub">Define o intervalo de meses exibido na matriz de calor e nos gráficos.</div>
+            </div>
+          </div>
+          <div class="period-body">
+            <div class="period-row">
+              <div class="period-group">
+                <label>De</label>
+                <select class="period-select" id="cfgStartMonth"></select>
+                <select class="period-select" id="cfgStartYear" style="min-width:80px"></select>
+              </div>
+              <div class="period-sep">→</div>
+              <div class="period-group">
+                <label>Até</label>
+                <select class="period-select" id="cfgEndMonth"></select>
+                <select class="period-select" id="cfgEndYear" style="min-width:80px"></select>
+              </div>
+              <button class="btn-primary" onclick="aplicarPeriodo()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Aplicar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </main>
 
   <div id="toast"></div>
 
   <script>
     // ════════════════════════════════════════════════════════════
-    // CONFIGURAÇÃO DE DATASETS
+    // CONSTANTES
     // ════════════════════════════════════════════════════════════
-    const DATASETS = [
+    const SENHA      = "mateus";
+    const RESTRICTED = ["painel", "dashboard", "config"];
+    const MESES      = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+                        "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+
+    const DATASETS_PADRAO = [
       {
         id: "visao-portfolio",
         name: "VISÃO DE PORTFOLIO",
         workspace: "PORTFOLIO - TRINUS",
         flowUrl: "https://0d71363c8a5ce7e19f8bf405b0752f.e3.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/a429dc52f1824f00b35e275693ca8301/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=GLbNnuGbq61xHONprlUHHnHyXkKFvfHjYIMn19WygEs"
       },
-      { id: "obra-alfa",  name: "OBRA ALFA — DRE",          workspace: "OBRAS - TRINUS",    flowUrl: "" },
-      { id: "obra-beta",  name: "OBRA BETA — DASHBOARD",    workspace: "OBRAS - TRINUS",    flowUrl: "" },
-      { id: "obra-gama",  name: "OBRA GAMA — FINANCEIRO",   workspace: "OBRAS - TRINUS",    flowUrl: "" },
-      { id: "obra-delta", name: "OBRA DELTA — VENDAS",      workspace: "OBRAS - TRINUS",    flowUrl: "" },
-      { id: "obra-eps",   name: "OBRA EPSILON — RH",        workspace: "RH - TRINUS",       flowUrl: "" },
-      { id: "obra-zeta",  name: "OBRA ZETA — CONTRATOS",    workspace: "JURÍDICO - TRINUS", flowUrl: "" },
-      { id: "fundos",     name: "FUNDOS — CAPTAÇÃO",        workspace: "FUNDOS - TRINUS",   flowUrl: "" },
+      { id:"obra-alfa",  name:"OBRA ALFA — DRE",         workspace:"OBRAS - TRINUS",    flowUrl:"" },
+      { id:"obra-beta",  name:"OBRA BETA — DASHBOARD",   workspace:"OBRAS - TRINUS",    flowUrl:"" },
+      { id:"obra-gama",  name:"OBRA GAMA — FINANCEIRO",  workspace:"OBRAS - TRINUS",    flowUrl:"" },
+      { id:"obra-delta", name:"OBRA DELTA — VENDAS",     workspace:"OBRAS - TRINUS",    flowUrl:"" },
+      { id:"obra-eps",   name:"OBRA EPSILON — RH",       workspace:"RH - TRINUS",       flowUrl:"" },
+      { id:"obra-zeta",  name:"OBRA ZETA — CONTRATOS",   workspace:"JURÍDICO - TRINUS", flowUrl:"" },
+      { id:"fundos",     name:"FUNDOS — CAPTAÇÃO",       workspace:"FUNDOS - TRINUS",   flowUrl:"" },
     ];
 
+    const CONFIG_PADRAO = { startYear:2026, startMonth:2, endYear:2026, endMonth:3 };
+
     // ════════════════════════════════════════════════════════════
-    // DADOS MOCK — substituir por historico.json do GitHub
+    // PERSISTÊNCIA (localStorage)
     // ════════════════════════════════════════════════════════════
-    const USUARIOS_MOCK = ["Mateus Monteiro", "João Silva", "Maria Oliveira", "Pedro Santos", "Ana Costa"];
+    function loadDatasets() {
+      try {
+        const s = localStorage.getItem("trinus_datasets");
+        return s ? JSON.parse(s) : JSON.parse(JSON.stringify(DATASETS_PADRAO));
+      } catch { return JSON.parse(JSON.stringify(DATASETS_PADRAO)); }
+    }
+
+    function saveDatasets() {
+      localStorage.setItem("trinus_datasets", JSON.stringify(DATASETS));
+    }
+
+    function loadConfig() {
+      try {
+        const s = localStorage.getItem("trinus_dash_config");
+        return s ? JSON.parse(s) : { ...CONFIG_PADRAO };
+      } catch { return { ...CONFIG_PADRAO }; }
+    }
+
+    function saveConfig() {
+      localStorage.setItem("trinus_dash_config", JSON.stringify(DASH_CONFIG));
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // ESTADO GLOBAL
+    // ════════════════════════════════════════════════════════════
+    let DATASETS    = loadDatasets();
+    let DASH_CONFIG = loadConfig();
+    let HISTORICO   = gerarMock();
+
+    let autenticado   = false;
+    let pendingBtn    = null;
+    let pendingTab    = null;
+    let editingDsId   = null;   // null = novo, string = editando
+    let deletingDsId  = null;   // id aguardando confirmação
+
+    // ════════════════════════════════════════════════════════════
+    // MOCK DATA
+    // ════════════════════════════════════════════════════════════
+    const USUARIOS_MOCK = ["Mateus Monteiro","João Silva","Maria Oliveira","Pedro Santos","Ana Costa"];
 
     function gerarMock() {
       const hist  = [];
       const rng   = n => Math.floor(Math.random() * n);
-      const start = new Date("2026-03-01T00:00:00");
-      const end   = new Date("2026-04-15T23:59:59");
+      const start = new Date(DASH_CONFIG.startYear, DASH_CONFIG.startMonth, 1);
+      const end   = new Date(DASH_CONFIG.endYear, DASH_CONFIG.endMonth + 1, 0); // último dia do mês final
       for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
         DATASETS.forEach(ds => {
           const qtd = Math.random() < 0.30 ? rng(3) + 1 : 0;
           for (let i = 0; i < qtd; i++) {
-            const ts = new Date(d.getTime() + 28800000 + rng(32400000));
             hist.push({
-              timestamp:   ts.toISOString(),
+              timestamp:   new Date(d.getTime() + 28800000 + rng(32400000)).toISOString(),
               datasetId:   ds.id,
               datasetName: ds.name,
               usuario:     USUARIOS_MOCK[rng(USUARIOS_MOCK.length)],
@@ -1001,23 +908,13 @@
       return hist;
     }
 
-    const HISTORICO = gerarMock();
-
     // ════════════════════════════════════════════════════════════
-    // AUTENTICAÇÃO
+    // TABS
     // ════════════════════════════════════════════════════════════
-    let autenticado   = false;
-    let pendingBtn    = null;
-    let pendingTab    = null;
-    const RESTRICTED  = ["painel", "dashboard"];
-    const SENHA       = "mateus";
-
     function setTab(btn, name) {
       if (RESTRICTED.includes(name) && !autenticado) {
-        pendingBtn = btn;
-        pendingTab = name;
-        openLoginModal();
-        return;
+        pendingBtn = btn; pendingTab = name;
+        openLoginModal(); return;
       }
       navegarPara(btn, name);
     }
@@ -1029,6 +926,9 @@
       document.getElementById("pane-" + name).classList.add("active");
     }
 
+    // ════════════════════════════════════════════════════════════
+    // MODAL — AUTENTICAÇÃO
+    // ════════════════════════════════════════════════════════════
     function openLoginModal() {
       document.getElementById("loginInput").value = "";
       document.getElementById("loginError").style.visibility = "hidden";
@@ -1038,65 +938,59 @@
 
     function closeLoginModal() {
       document.getElementById("loginModal").classList.remove("show");
-      pendingBtn = null;
-      pendingTab = null;
+      pendingBtn = null; pendingTab = null;
     }
 
     function handleLogin() {
-      const val = document.getElementById("loginInput").value;
-      if (val === SENHA) {
+      if (document.getElementById("loginInput").value === SENHA) {
         autenticado = true;
         document.getElementById("loginModal").classList.remove("show");
-        // Remove cadeados
-        document.getElementById("lock-painel").style.display    = "none";
-        document.getElementById("lock-dashboard").style.display = "none";
-        // Navega para a aba pendente
-        if (pendingBtn && pendingTab) {
-          navegarPara(pendingBtn, pendingTab);
-        }
-        pendingBtn = null;
-        pendingTab = null;
+        ["painel","dashboard","config"].forEach(id => {
+          const el = document.getElementById("lock-" + id);
+          if (el) el.style.display = "none";
+        });
+        if (pendingBtn && pendingTab) navegarPara(pendingBtn, pendingTab);
+        pendingBtn = null; pendingTab = null;
       } else {
         const inp = document.getElementById("loginInput");
         document.getElementById("loginError").style.visibility = "visible";
         inp.classList.remove("shake");
-        void inp.offsetWidth; // reflow para reiniciar a animação
+        void inp.offsetWidth;
         inp.classList.add("shake");
-        inp.value = "";
-        inp.focus();
+        inp.value = ""; inp.focus();
       }
     }
 
-    // Fechar modal ao clicar fora
     document.getElementById("loginModal").addEventListener("click", function(e) {
       if (e.target === this) closeLoginModal();
     });
 
     // ════════════════════════════════════════════════════════════
-    // ABA SOLICITAR
+    // ABA — SOLICITAR
     // ════════════════════════════════════════════════════════════
-    const selDs = document.getElementById("inputDataset");
-    DATASETS.forEach(ds => {
-      const opt       = document.createElement("option");
-      opt.value       = ds.id;
-      opt.textContent = ds.name;
-      selDs.appendChild(opt);
-    });
+    function popularSelect() {
+      const sel = document.getElementById("inputDataset");
+      const val = sel.value;
+      sel.innerHTML = `<option value="" disabled>Selecione o relatório...</option>`;
+      DATASETS.forEach(ds => {
+        const opt = document.createElement("option");
+        opt.value = ds.id; opt.textContent = ds.name;
+        sel.appendChild(opt);
+      });
+      if (val && DATASETS.find(d => d.id === val)) sel.value = val;
+      else sel.value = "";
+    }
 
     function tick() {
       document.getElementById("datetimeLabel").textContent =
-        new Date().toLocaleString("pt-BR", {
-          weekday: "short", day: "2-digit", month: "short",
-          year: "numeric", hour: "2-digit", minute: "2-digit"
-        });
+        new Date().toLocaleString("pt-BR", { weekday:"short", day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" });
     }
-    tick();
-    setInterval(tick, 1000);
+    tick(); setInterval(tick, 1000);
 
     async function handleSubmit() {
       const nome = document.getElementById("inputNome").value.trim();
       const dsId = document.getElementById("inputDataset").value;
-      if (!nome) { document.getElementById("inputNome").focus();    return; }
+      if (!nome) { document.getElementById("inputNome").focus(); return; }
       if (!dsId) { document.getElementById("inputDataset").focus(); return; }
 
       const ds  = DATASETS.find(d => d.id === dsId);
@@ -1105,19 +999,15 @@
       btn.innerHTML = `<span class="icon-spin">↻</span> Enviando...`;
 
       if (ds.flowUrl) {
-        try {
-          await fetch(ds.flowUrl, { method: "POST", mode: "no-cors" });
-        } catch (e) {
+        try { await fetch(ds.flowUrl, { method:"POST", mode:"no-cors" }); }
+        catch (e) {
           if (!(e instanceof TypeError)) {
             btn.disabled = false;
             btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Solicitar Atualização`;
-            toast("Erro ao disparar atualização. Tente novamente.");
-            return;
+            toast("Erro ao disparar atualização. Tente novamente."); return;
           }
         }
-      } else {
-        await delay(1200);
-      }
+      } else { await delay(1200); }
 
       const dt = document.getElementById("datetimeLabel").textContent;
       document.getElementById("successDetail").innerHTML =
@@ -1137,7 +1027,7 @@
     }
 
     // ════════════════════════════════════════════════════════════
-    // ABA PAINEL — CARDS
+    // ABA — PAINEL
     // ════════════════════════════════════════════════════════════
     const cardState  = {};
     const cardLastTs = {};
@@ -1148,8 +1038,7 @@
       DATASETS.forEach(ds => {
         cardState[ds.id] = cardState[ds.id] || "idle";
         const el = document.createElement("div");
-        el.id        = "card-" + ds.id;
-        el.className = "card";
+        el.id = "card-" + ds.id; el.className = "card";
         el.innerHTML = buildCard(ds);
         grid.appendChild(el);
       });
@@ -1158,9 +1047,9 @@
     function buildCard(ds) {
       const s   = cardState[ds.id] || "idle";
       const ts  = cardLastTs[ds.id] ? "Última: " + cardLastTs[ds.id] : "Nunca atualizado";
-      const lbl = { idle: "AGUARDANDO", running: "ATUALIZANDO", success: "ATUALIZADO", error: "ERRO" };
-      const btnTxt = s === "running" ? "Atualizando..." : "Atualizar";
-      const icon   = s === "running"
+      const lbl = { idle:"AGUARDANDO", running:"ATUALIZANDO", success:"ATUALIZADO", error:"ERRO" };
+      const btn = s === "running" ? "Atualizando..." : "Atualizar";
+      const ico = s === "running"
         ? `<span class="icon-spin">↻</span>`
         : `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>`;
       return `
@@ -1171,15 +1060,12 @@
           </div>
           <span class="badge badge-${s}">${lbl[s]}</span>
         </div>
-        <div class="progress-wrap">
-          <div class="progress-bar ${s !== "idle" ? s : ""}"></div>
-        </div>
+        <div class="progress-wrap"><div class="progress-bar ${s !== "idle" ? s : ""}"></div></div>
         <div class="card-footer">
           <span class="card-ts">${ts}</span>
           <button class="btn-refresh ${s === "success" ? "success" : ""}"
-            onclick="triggerRefresh('${ds.id}')"
-            ${s === "running" ? "disabled" : ""}>
-            ${icon} ${btnTxt}
+            onclick="triggerRefresh('${ds.id}')" ${s === "running" ? "disabled" : ""}>
+            ${ico} ${btn}
           </button>
         </div>`;
     }
@@ -1196,35 +1082,23 @@
       if (cardState[id] === "running") return;
       const ds = DATASETS.find(d => d.id === id);
       if (!ds) return;
-      cardState[id] = "running";
-      updateCard(id);
+      cardState[id] = "running"; updateCard(id);
       document.getElementById("btnAll").disabled = true;
       if (ds.flowUrl) {
-        try {
-          await fetch(ds.flowUrl, { method: "POST", mode: "no-cors" });
-          markOk(id);
-        } catch (e) {
-          e instanceof TypeError ? markOk(id) : markErr(id, e.message);
-        }
-      } else {
-        await delay(1800);
-        markOk(id);
-      }
+        try { await fetch(ds.flowUrl, { method:"POST", mode:"no-cors" }); markOk(id); }
+        catch (e) { e instanceof TypeError ? markOk(id) : markErr(id, e.message); }
+      } else { await delay(1800); markOk(id); }
       document.getElementById("btnAll").disabled = false;
     }
 
     function markOk(id) {
-      cardState[id]  = "success";
-      cardLastTs[id] = new Date().toLocaleString("pt-BR");
-      updateCard(id);
-      toast("✓ " + DATASETS.find(d => d.id === id)?.name + " — refresh disparado.");
+      cardState[id] = "success"; cardLastTs[id] = new Date().toLocaleString("pt-BR");
+      updateCard(id); toast("✓ " + DATASETS.find(d => d.id === id)?.name + " — refresh disparado.");
       setTimeout(() => { if (cardState[id] === "success") { cardState[id] = "idle"; updateCard(id); } }, 8000);
     }
 
     function markErr(id, msg) {
-      cardState[id] = "error";
-      updateCard(id);
-      toast("✗ Erro: " + msg);
+      cardState[id] = "error"; updateCard(id); toast("✗ Erro: " + msg);
       setTimeout(() => { if (cardState[id] === "error") { cardState[id] = "idle"; updateCard(id); } }, 8000);
     }
 
@@ -1235,16 +1109,14 @@
     }
 
     // ════════════════════════════════════════════════════════════
-    // ABA DASHBOARD
+    // ABA — DASHBOARD
     // ════════════════════════════════════════════════════════════
     function renderDashboard() {
       const hist     = HISTORICO;
       const total    = hist.length;
       const uniqDs   = new Set(hist.map(h => h.datasetId)).size;
       const uniqUser = new Set(hist.map(h => h.usuario)).size;
-      const taxa     = total
-        ? Math.round(hist.filter(h => h.status === "sucesso").length / total * 100)
-        : 0;
+      const taxa     = total ? Math.round(hist.filter(h => h.status === "sucesso").length / total * 100) : 0;
 
       document.getElementById("kpiRow").innerHTML =
         kpiCard("Total de Atualizações", total,       "no período (mock)") +
@@ -1256,13 +1128,13 @@
       hist.forEach(h => { byDs[h.datasetName] = (byDs[h.datasetName] || 0) + 1; });
       const maxDs = Math.max(...Object.values(byDs), 1);
       document.getElementById("chartDataset").innerHTML =
-        Object.entries(byDs).sort((a, b) => b[1] - a[1]).map(([n, c]) => barRow(n, c, maxDs)).join("");
+        Object.entries(byDs).sort((a,b) => b[1]-a[1]).map(([n,c]) => barRow(n,c,maxDs)).join("");
 
       const byUser = {};
       hist.forEach(h => { byUser[h.usuario] = (byUser[h.usuario] || 0) + 1; });
       const maxU = Math.max(...Object.values(byUser), 1);
       document.getElementById("chartUsuario").innerHTML =
-        Object.entries(byUser).sort((a, b) => b[1] - a[1]).map(([n, c]) => barRow(n, c, maxU)).join("");
+        Object.entries(byUser).sort((a,b) => b[1]-a[1]).map(([n,c]) => barRow(n,c,maxU)).join("");
 
       renderHeatmap(hist);
     }
@@ -1276,53 +1148,54 @@
     }
 
     function barRow(name, count, max) {
-      const pct = Math.max(Math.round(count / max * 100), 3);
       return `<div class="bar-row">
         <div class="bar-label" title="${name}">${name}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.max(Math.round(count/max*100),3)}%"></div></div>
         <div class="bar-value">${count}</div>
       </div>`;
     }
 
     function renderHeatmap(hist) {
-      const MONTHS = [
-        { year: 2026, idx: 2, label: "MARÇO", days: 31 },
-        { year: 2026, idx: 3, label: "ABRIL", days: 15 },
-      ];
+      // Constrói lista de meses dinamicamente
+      const months = [];
+      let y = DASH_CONFIG.startYear, m = DASH_CONFIG.startMonth;
+      while (months.length < 24) {
+        months.push({
+          year: y, idx: m,
+          label: MESES[m].toUpperCase(),
+          days: new Date(y, m + 1, 0).getDate()
+        });
+        if (y === DASH_CONFIG.endYear && m === DASH_CONFIG.endMonth) break;
+        m++; if (m > 11) { m = 0; y++; }
+      }
 
       const lookup = {};
       DATASETS.forEach(ds => { lookup[ds.id] = {}; });
       hist.forEach(h => {
         const d   = new Date(h.timestamp);
         const key = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
-        if (lookup[h.datasetId]) {
-          lookup[h.datasetId][key] = (lookup[h.datasetId][key] || 0) + 1;
-        }
+        if (lookup[h.datasetId]) lookup[h.datasetId][key] = (lookup[h.datasetId][key] || 0) + 1;
       });
 
       let r1 = `<tr><th class="hm-blank hm-name"></th>`;
-      MONTHS.forEach(m => { r1 += `<th class="hm-month" colspan="${m.days}">${m.label}</th>`; });
+      months.forEach(m => { r1 += `<th class="hm-month" colspan="${m.days}">${m.label} ${m.year}</th>`; });
       r1 += `</tr>`;
 
       let r2 = `<tr><th class="hm-name"></th>`;
-      MONTHS.forEach(m => {
-        for (let d = 1; d <= m.days; d++) r2 += `<th class="hm-day">${d}</th>`;
-      });
+      months.forEach(m => { for (let d=1; d<=m.days; d++) r2 += `<th class="hm-day">${d}</th>`; });
       r2 += `</tr>`;
 
       let rows = "";
       DATASETS.forEach(ds => {
         rows += `<tr><td class="hm-name">${ds.name}</td>`;
-        MONTHS.forEach(m => {
-          for (let d = 1; d <= m.days; d++) {
+        months.forEach(m => {
+          for (let d=1; d<=m.days; d++) {
             const key   = m.year + "-" + m.idx + "-" + d;
             const count = (lookup[ds.id] || {})[key] || 0;
-            const lvl   = count === 0 ? 0 : count === 1 ? 1 : count === 2 ? 2 : count === 3 ? 3 : 4;
-            const dd    = String(d).padStart(2, "0");
-            const mm    = String(m.idx + 1).padStart(2, "0");
-            const tip   = count === 0
-              ? `Nenhuma — ${dd}/${mm}`
-              : `${count} atualização${count > 1 ? "ões" : ""} — ${dd}/${mm}`;
+            const lvl   = count===0?0:count===1?1:count===2?2:count===3?3:4;
+            const dd    = String(d).padStart(2,"0");
+            const mm    = String(m.idx+1).padStart(2,"0");
+            const tip   = count===0 ? `Nenhuma — ${dd}/${mm}` : `${count} atualização${count>1?"ões":""} — ${dd}/${mm}`;
             rows += `<td class="hm-cell hm-${lvl}" data-tip="${tip}"></td>`;
           }
         });
@@ -1333,13 +1206,186 @@
     }
 
     // ════════════════════════════════════════════════════════════
+    // ABA — CONFIGURAÇÕES: DATASETS (CRUD)
+    // ════════════════════════════════════════════════════════════
+    function renderConfigTable() {
+      const body = document.getElementById("configTableBody");
+      if (!DATASETS.length) {
+        body.innerHTML = `<div class="ds-empty">Nenhum dataset cadastrado. Clique em "Nova Obra" para adicionar.</div>`;
+        return;
+      }
+      body.innerHTML = DATASETS.map(ds => {
+        if (deletingDsId === ds.id) {
+          return `<div class="ds-row confirming">
+            <div class="ds-confirm" style="grid-column:1/-1">
+              <div class="ds-confirm-msg">
+                Excluir <strong>"${ds.name}"</strong> permanentemente?
+              </div>
+              <button class="btn-danger" onclick="confirmarDelete('${ds.id}')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                Confirmar Exclusão
+              </button>
+              <button class="btn-ghost" style="padding:7px 14px;font-size:12px" onclick="cancelarDelete()">Cancelar</button>
+            </div>
+          </div>`;
+        }
+        const urlPill = ds.flowUrl
+          ? `<span class="url-pill url-ok"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Configurada</span>`
+          : `<span class="url-pill url-empty">Sem URL</span>`;
+        return `<div class="ds-row">
+          <div>
+            <div class="ds-row-name">${ds.name}</div>
+          </div>
+          <div class="ds-row-ws">${ds.workspace || "—"}</div>
+          <div>${urlPill}</div>
+          <div class="ds-row-actions">
+            <button class="btn-icon" title="Editar" onclick="abrirModalDataset('${ds.id}')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </button>
+            <button class="btn-icon danger" title="Excluir" onclick="iniciarDelete('${ds.id}')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/>
+                <path d="M9 6V4h6v2"/>
+              </svg>
+            </button>
+          </div>
+        </div>`;
+      }).join("");
+    }
+
+    function iniciarDelete(id) {
+      deletingDsId = id;
+      renderConfigTable();
+    }
+
+    function cancelarDelete() {
+      deletingDsId = null;
+      renderConfigTable();
+    }
+
+    function confirmarDelete(id) {
+      DATASETS = DATASETS.filter(d => d.id !== id);
+      delete cardState[id];
+      saveDatasets();
+      deletingDsId = null;
+      renderConfigTable();
+      renderGrid();
+      popularSelect();
+      HISTORICO = gerarMock();
+      renderDashboard();
+      toast("Obra removida com sucesso.");
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // MODAL — CADASTRO / EDIÇÃO DE DATASET
+    // ════════════════════════════════════════════════════════════
+    function abrirModalDataset(id) {
+      editingDsId = id;
+      const ds = id ? DATASETS.find(d => d.id === id) : null;
+
+      document.getElementById("dsModalTitle").textContent = ds ? "Editar Obra" : "Nova Obra";
+      document.getElementById("dsModalSub").textContent   = ds ? `Editando "${ds.name}".` : "Preencha os dados do novo dataset.";
+      document.getElementById("dsInputName").value        = ds?.name      || "";
+      document.getElementById("dsInputWorkspace").value   = ds?.workspace || "";
+      document.getElementById("dsInputUrl").value         = ds?.flowUrl   || "";
+
+      document.getElementById("datasetModal").classList.add("show");
+      setTimeout(() => document.getElementById("dsInputName").focus(), 80);
+    }
+
+    function closeDatasetModal() {
+      document.getElementById("datasetModal").classList.remove("show");
+      editingDsId = null;
+    }
+
+    function salvarDataset() {
+      const name      = document.getElementById("dsInputName").value.trim();
+      const workspace = document.getElementById("dsInputWorkspace").value.trim();
+      const flowUrl   = document.getElementById("dsInputUrl").value.trim();
+
+      if (!name) {
+        document.getElementById("dsInputName").focus();
+        document.getElementById("dsInputName").style.borderColor = "var(--red)";
+        setTimeout(() => document.getElementById("dsInputName").style.borderColor = "", 1500);
+        return;
+      }
+
+      if (editingDsId) {
+        const idx = DATASETS.findIndex(d => d.id === editingDsId);
+        if (idx > -1) DATASETS[idx] = { ...DATASETS[idx], name, workspace, flowUrl };
+        toast("Obra atualizada com sucesso.");
+      } else {
+        DATASETS.push({ id: "ds_" + Date.now().toString(36), name, workspace, flowUrl });
+        toast("Nova obra adicionada com sucesso.");
+      }
+
+      saveDatasets();
+      closeDatasetModal();
+      renderConfigTable();
+      renderGrid();
+      popularSelect();
+      HISTORICO = gerarMock();
+      renderDashboard();
+    }
+
+    document.getElementById("datasetModal").addEventListener("click", function(e) {
+      if (e.target === this) closeDatasetModal();
+    });
+
+    // ════════════════════════════════════════════════════════════
+    // ABA — CONFIGURAÇÕES: PERÍODO DO DASHBOARD
+    // ════════════════════════════════════════════════════════════
+    function popularPeriodSelects() {
+      const anos = [2024, 2025, 2026, 2027, 2028];
+
+      ["cfgStartMonth","cfgEndMonth"].forEach(id => {
+        const sel = document.getElementById(id);
+        sel.innerHTML = MESES.map((m, i) => `<option value="${i}">${m}</option>`).join("");
+      });
+
+      ["cfgStartYear","cfgEndYear"].forEach(id => {
+        const sel = document.getElementById(id);
+        sel.innerHTML = anos.map(a => `<option value="${a}">${a}</option>`).join("");
+      });
+
+      document.getElementById("cfgStartMonth").value = DASH_CONFIG.startMonth;
+      document.getElementById("cfgStartYear").value  = DASH_CONFIG.startYear;
+      document.getElementById("cfgEndMonth").value   = DASH_CONFIG.endMonth;
+      document.getElementById("cfgEndYear").value    = DASH_CONFIG.endYear;
+    }
+
+    function aplicarPeriodo() {
+      const sM = parseInt(document.getElementById("cfgStartMonth").value);
+      const sY = parseInt(document.getElementById("cfgStartYear").value);
+      const eM = parseInt(document.getElementById("cfgEndMonth").value);
+      const eY = parseInt(document.getElementById("cfgEndYear").value);
+
+      const startTs = new Date(sY, sM, 1).getTime();
+      const endTs   = new Date(eY, eM, 1).getTime();
+
+      if (endTs < startTs) {
+        toast("O mês final deve ser igual ou posterior ao mês inicial.");
+        return;
+      }
+
+      DASH_CONFIG = { startYear: sY, startMonth: sM, endYear: eY, endMonth: eM };
+      saveConfig();
+      HISTORICO = gerarMock();
+      renderDashboard();
+      toast("Período atualizado — " + MESES[sM] + "/" + sY + " → " + MESES[eM] + "/" + eY + ".");
+    }
+
+    // ════════════════════════════════════════════════════════════
     // TOAST
     // ════════════════════════════════════════════════════════════
     let toastTimer;
     function toast(msg) {
       const el = document.getElementById("toast");
-      el.textContent = msg;
-      el.classList.add("show");
+      el.textContent = msg; el.classList.add("show");
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => el.classList.remove("show"), 4000);
     }
@@ -1349,8 +1395,11 @@
     // ════════════════════════════════════════════════════════════
     // INIT
     // ════════════════════════════════════════════════════════════
+    popularSelect();
     renderGrid();
     renderDashboard();
+    renderConfigTable();
+    popularPeriodSelects();
   </script>
 </body>
 </html>
