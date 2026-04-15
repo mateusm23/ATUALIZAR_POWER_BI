@@ -288,6 +288,28 @@
     }
     .btn-link:hover { border-color: var(--azul); color: var(--azul); }
 
+    /* ── ESTADO DE ERRO (solicitar) ──────────────────────────── */
+    .error-view   { display: none; text-align: center; }
+
+    .error-circle {
+      width: 56px; height: 56px; background: rgba(239,68,68,.12); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--red);
+    }
+
+    .error-title  { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .error-detail { font-size: 13px; color: var(--mut); margin-bottom: 22px; line-height: 1.6; }
+
+    .error-box {
+      background: rgba(239,68,68,.06); border: 1px solid rgba(239,68,68,.2);
+      border-radius: 8px; padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 10px; text-align: left;
+    }
+    .error-box-text        { font-size: 13px; line-height: 1.5; color: var(--txt); }
+    .error-box-text strong { color: var(--red); display: block; margin-bottom: 2px; }
+
+    /* ── MENSAGEM DE ERRO NO CARD (painel) ───────────────────── */
+    .card-err-msg { font-size: 11px; color: var(--red); }
+
     /* ════════════════════════════════════════════════════════════
        ABA — PAINEL
     ════════════════════════════════════════════════════════════ */
@@ -671,6 +693,31 @@
             </button>
           </div>
 
+          <!-- ── ERRO ──────────────────────────────────────── -->
+          <div class="error-view" id="errorView">
+            <div class="error-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </div>
+            <div class="error-title">Falha ao enviar</div>
+            <div class="error-detail" id="errorDetail">Não foi possível conectar ao servidor.</div>
+            <div class="error-box">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   style="flex-shrink:0;margin-top:1px;color:var(--red)">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <div class="error-box-text">
+                <strong>O que fazer?</strong>
+                Verifique sua conexão com a internet e tente novamente. Se o problema persistir, contate o suporte.
+              </div>
+            </div>
+            <button class="btn-link" onclick="resetForm()">Tentar novamente</button>
+          </div>
+
+          <!-- ── SUCESSO ───────────────────────────────────── -->
           <div class="success-view" id="successView">
             <div class="success-circle">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -1002,10 +1049,16 @@
         try { await fetch(ds.flowUrl, { method:"POST", mode:"no-cors" }); }
         catch (e) {
           if (!(e instanceof TypeError)) {
+            // Erro real de rede — mostra tela de erro
             btn.disabled = false;
             btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Solicitar Atualização`;
-            toast("Erro ao disparar atualização. Tente novamente."); return;
+            document.getElementById("errorDetail").textContent =
+              "Código do erro: " + e.message + ". Verifique sua conexão e tente novamente.";
+            document.getElementById("formView").style.display  = "none";
+            document.getElementById("errorView").style.display = "block";
+            return;
           }
+          // TypeError = CORS bloqueou a resposta, mas o flow foi disparado normalmente
         }
       } else { await delay(1200); }
 
@@ -1024,6 +1077,7 @@
       btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Solicitar Atualização`;
       document.getElementById("formView").style.display    = "block";
       document.getElementById("successView").style.display = "none";
+      document.getElementById("errorView").style.display   = "none";
     }
 
     // ════════════════════════════════════════════════════════════
@@ -1031,6 +1085,7 @@
     // ════════════════════════════════════════════════════════════
     const cardState  = {};
     const cardLastTs = {};
+    const cardErrMsg = {};
 
     function renderGrid() {
       const grid = document.getElementById("grid");
@@ -1046,7 +1101,10 @@
 
     function buildCard(ds) {
       const s   = cardState[ds.id] || "idle";
-      const ts  = cardLastTs[ds.id] ? "Última: " + cardLastTs[ds.id] : "Nunca atualizado";
+      const ts  = s === "error"   ? "Falha: " + (cardErrMsg[ds.id] || "erro ao disparar")
+                : s === "running" ? "Aguardando resposta do servidor..."
+                : cardLastTs[ds.id] ? "Atualizado em: " + cardLastTs[ds.id]
+                : "Nunca atualizado";
       const lbl = { idle:"AGUARDANDO", running:"ATUALIZANDO", success:"ATUALIZADO", error:"ERRO" };
       const btn = s === "running" ? "Atualizando..." : "Atualizar";
       const ico = s === "running"
@@ -1062,7 +1120,7 @@
         </div>
         <div class="progress-wrap"><div class="progress-bar ${s !== "idle" ? s : ""}"></div></div>
         <div class="card-footer">
-          <span class="card-ts">${ts}</span>
+          <span class="card-ts ${s === 'error' ? 'card-err-msg' : ''}">${ts}</span>
           <button class="btn-refresh ${s === "success" ? "success" : ""}"
             onclick="triggerRefresh('${ds.id}')" ${s === "running" ? "disabled" : ""}>
             ${ico} ${btn}
@@ -1092,14 +1150,20 @@
     }
 
     function markOk(id) {
-      cardState[id] = "success"; cardLastTs[id] = new Date().toLocaleString("pt-BR");
-      updateCard(id); toast("✓ " + DATASETS.find(d => d.id === id)?.name + " — refresh disparado.");
+      cardState[id]  = "success";
+      cardLastTs[id] = new Date().toLocaleString("pt-BR");
+      delete cardErrMsg[id];
+      updateCard(id);
+      toast("✓ " + DATASETS.find(d => d.id === id)?.name + " — atualizado com sucesso.");
       setTimeout(() => { if (cardState[id] === "success") { cardState[id] = "idle"; updateCard(id); } }, 8000);
     }
 
     function markErr(id, msg) {
-      cardState[id] = "error"; updateCard(id); toast("✗ Erro: " + msg);
-      setTimeout(() => { if (cardState[id] === "error") { cardState[id] = "idle"; updateCard(id); } }, 8000);
+      cardState[id]  = "error";
+      cardErrMsg[id] = msg || "falha na conexão com o servidor";
+      updateCard(id);
+      toast("✗ " + DATASETS.find(d => d.id === id)?.name + " — " + (msg || "erro ao disparar refresh."));
+      setTimeout(() => { if (cardState[id] === "error") { cardState[id] = "idle"; updateCard(id); } }, 10000);
     }
 
     async function refreshAll() {
