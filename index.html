@@ -894,29 +894,34 @@
         workspace: "PORTFOLIO - TRINUS",
         flowUrl: "https://0d71363c8a5ce7e19f8bf405b0752f.e3.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/a429dc52f1824f00b35e275693ca8301/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=GLbNnuGbq61xHONprlUHHnHyXkKFvfHjYIMn19WygEs"
       },
-      { id:"obra-alfa",  name:"OBRA ALFA — DRE",         workspace:"OBRAS - TRINUS",    flowUrl:"" },
-      { id:"obra-beta",  name:"OBRA BETA — DASHBOARD",   workspace:"OBRAS - TRINUS",    flowUrl:"" },
-      { id:"obra-gama",  name:"OBRA GAMA — FINANCEIRO",  workspace:"OBRAS - TRINUS",    flowUrl:"" },
-      { id:"obra-delta", name:"OBRA DELTA — VENDAS",     workspace:"OBRAS - TRINUS",    flowUrl:"" },
-      { id:"obra-eps",   name:"OBRA EPSILON — RH",       workspace:"RH - TRINUS",       flowUrl:"" },
-      { id:"obra-zeta",  name:"OBRA ZETA — CONTRATOS",   workspace:"JURÍDICO - TRINUS", flowUrl:"" },
-      { id:"fundos",     name:"FUNDOS — CAPTAÇÃO",       workspace:"FUNDOS - TRINUS",   flowUrl:"" },
+      {
+        id: "garden",
+        name: "GARDEN",
+        workspace: "BRAVO",
+        flowUrl: "https://0d71363c8a5ce7e19f8bf405b0752f.e3.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7bdccd9913bb459bac87eb076cce0e5e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=QY6RzWWqjrpcG4qBfRrwTwhYKKbVOa5CS6ubxQ2o2kw"
+      },
+      {
+        id: "bonifacio",
+        name: "BONIFACIO",
+        workspace: "BRAVO",
+        flowUrl: "https://0d71363c8a5ce7e19f8bf405b0752f.e3.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/c55fa7edeb6a4752b83c88e088c41fc7/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=4dVJLrVJ3pmTP3w661xQLpTW1ejwpA5I8eIaj8xNn_M"
+      },
     ];
 
-    const CONFIG_PADRAO = { startYear:2026, startMonth:2, endYear:2026, endMonth:3 };
+    const CONFIG_PADRAO = { startYear:2026, startMonth:0, endYear:2026, endMonth:11 };
 
     // ════════════════════════════════════════════════════════════
     // PERSISTÊNCIA (localStorage)
     // ════════════════════════════════════════════════════════════
     function loadDatasets() {
       try {
-        const s = localStorage.getItem("trinus_datasets");
+        const s = localStorage.getItem("trinus_datasets_v2");
         return s ? JSON.parse(s) : JSON.parse(JSON.stringify(DATASETS_PADRAO));
       } catch { return JSON.parse(JSON.stringify(DATASETS_PADRAO)); }
     }
 
     function saveDatasets() {
-      localStorage.setItem("trinus_datasets", JSON.stringify(DATASETS));
+      localStorage.setItem("trinus_datasets_v2", JSON.stringify(DATASETS));
     }
 
     function loadConfig() {
@@ -966,45 +971,42 @@
       localStorage.setItem("trinus_cooldowns", JSON.stringify(cardCooldown));
     }
 
+    // ── Histórico de refreshes reais ──────────────────────────
+    function loadHistorico() {
+      try {
+        const s = localStorage.getItem("trinus_historico");
+        return s ? JSON.parse(s) : [];
+      } catch { return []; }
+    }
+
+    function saveHistorico() {
+      localStorage.setItem("trinus_historico", JSON.stringify(HISTORICO));
+    }
+
+    function registrarRefresh(dsId, dsName, usuario) {
+      HISTORICO.push({
+        timestamp:   new Date().toISOString(),
+        datasetId:   dsId,
+        datasetName: dsName,
+        usuario:     usuario || "—",
+        status:      "sucesso"
+      });
+      saveHistorico();
+      renderDashboard();
+    }
+
     // ════════════════════════════════════════════════════════════
     // ESTADO GLOBAL
     // ════════════════════════════════════════════════════════════
-    // ════════════════════════════════════════════════════════════
-    // MOCK DATA
-    // ════════════════════════════════════════════════════════════
-    const USUARIOS_MOCK = ["Mateus Monteiro","João Silva","Maria Oliveira","Pedro Santos","Ana Costa"];
-
     let DATASETS    = loadDatasets();
     let DASH_CONFIG = loadConfig();
-    let HISTORICO   = gerarMock();
+    let HISTORICO   = loadHistorico();
 
     let autenticado   = false;
     let pendingBtn    = null;
     let pendingTab    = null;
     let editingDsId   = null;   // null = novo, string = editando
     let deletingDsId  = null;   // id aguardando confirmação
-
-    function gerarMock() {
-      const hist  = [];
-      const rng   = n => Math.floor(Math.random() * n);
-      const start = new Date(DASH_CONFIG.startYear, DASH_CONFIG.startMonth, 1);
-      const end   = new Date(DASH_CONFIG.endYear, DASH_CONFIG.endMonth + 1, 0); // último dia do mês final
-      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        DATASETS.forEach(ds => {
-          const qtd = Math.random() < 0.30 ? rng(3) + 1 : 0;
-          for (let i = 0; i < qtd; i++) {
-            hist.push({
-              timestamp:   new Date(d.getTime() + 28800000 + rng(32400000)).toISOString(),
-              datasetId:   ds.id,
-              datasetName: ds.name,
-              usuario:     USUARIOS_MOCK[rng(USUARIOS_MOCK.length)],
-              status:      Math.random() < 0.93 ? "sucesso" : "erro"
-            });
-          }
-        });
-      }
-      return hist;
-    }
 
     // ════════════════════════════════════════════════════════════
     // TABS
@@ -1135,6 +1137,7 @@
       incrementarContador(dsId);
       cardCooldown[dsId] = Date.now() + 120 * 1000;  // cooldown de 2 minutos
       saveCooldowns();
+      registrarRefresh(dsId, ds.name, nome);
       const restante = getRestante(dsId);
       const dt = document.getElementById("datetimeLabel").textContent;
       document.getElementById("successDetail").innerHTML =
@@ -1261,15 +1264,17 @@
     }
 
     function markOk(id) {
+      const ds = DATASETS.find(d => d.id === id);
       incrementarContador(id);
       cardCooldown[id] = Date.now() + 120 * 1000;  // cooldown de 2 minutos
       saveCooldowns();
       cardState[id]  = "success";
       cardLastTs[id] = new Date().toLocaleString("pt-BR");
       delete cardErrMsg[id];
+      registrarRefresh(id, ds?.name || id, "Painel");
       updateCard(id);
       const restante = getRestante(id);
-      toast("✓ " + DATASETS.find(d => d.id === id)?.name + " — atualizado com sucesso. (" + restante + "/" + LIMITE_DIARIO + " restantes hoje)");
+      toast("✓ " + ds?.name + " — atualizado com sucesso. (" + restante + "/" + LIMITE_DIARIO + " restantes hoje)");
       setTimeout(() => { if (cardState[id] === "success") { cardState[id] = "idle"; updateCard(id); } }, 8000);
     }
 
@@ -1294,25 +1299,27 @@
       const hist     = HISTORICO;
       const total    = hist.length;
       const uniqDs   = new Set(hist.map(h => h.datasetId)).size;
-      const uniqUser = new Set(hist.map(h => h.usuario)).size;
+      const uniqUser = new Set(hist.map(h => h.usuario).filter(u => u && u !== "—")).size;
       const taxa     = total ? Math.round(hist.filter(h => h.status === "sucesso").length / total * 100) : 0;
 
       document.getElementById("kpiRow").innerHTML =
-        kpiCard("Total de Atualizações", total,       "no período (mock)") +
+        kpiCard("Total de Atualizações", total,       total === 0 ? "nenhuma registrada ainda" : "todas as obras") +
         kpiCard("Datasets Ativos",       uniqDs,      "de " + DATASETS.length + " configurados") +
-        kpiCard("Usuários Ativos",       uniqUser,    "usuários únicos") +
-        kpiCard("Taxa de Sucesso",       taxa + "%",  "das execuções");
+        kpiCard("Usuários Ativos",       uniqUser,    uniqUser === 0 ? "nenhum ainda" : "usuários únicos") +
+        kpiCard("Taxa de Sucesso",       taxa + "%",  total === 0 ? "—" : "das execuções");
+
+      const emptyChart = `<div style="padding:20px 0;text-align:center;font-size:12px;color:var(--mut)">Nenhuma atualização registrada ainda.</div>`;
 
       const byDs = {};
       hist.forEach(h => { byDs[h.datasetName] = (byDs[h.datasetName] || 0) + 1; });
       const maxDs = Math.max(...Object.values(byDs), 1);
-      document.getElementById("chartDataset").innerHTML =
+      document.getElementById("chartDataset").innerHTML = total === 0 ? emptyChart :
         Object.entries(byDs).sort((a,b) => b[1]-a[1]).map(([n,c]) => barRow(n,c,maxDs)).join("");
 
       const byUser = {};
-      hist.forEach(h => { byUser[h.usuario] = (byUser[h.usuario] || 0) + 1; });
+      hist.filter(h => h.usuario && h.usuario !== "—").forEach(h => { byUser[h.usuario] = (byUser[h.usuario] || 0) + 1; });
       const maxU = Math.max(...Object.values(byUser), 1);
-      document.getElementById("chartUsuario").innerHTML =
+      document.getElementById("chartUsuario").innerHTML = Object.keys(byUser).length === 0 ? emptyChart :
         Object.entries(byUser).sort((a,b) => b[1]-a[1]).map(([n,c]) => barRow(n,c,maxU)).join("");
 
       renderHeatmap(hist);
@@ -1454,7 +1461,6 @@
       renderConfigTable();
       renderGrid();
       popularSelect();
-      HISTORICO = gerarMock();
       renderDashboard();
       toast("Obra removida com sucesso.");
     }
@@ -1507,7 +1513,6 @@
       renderConfigTable();
       renderGrid();
       popularSelect();
-      HISTORICO = gerarMock();
       renderDashboard();
     }
 
@@ -1553,7 +1558,6 @@
 
       DASH_CONFIG = { startYear: sY, startMonth: sM, endYear: eY, endMonth: eM };
       saveConfig();
-      HISTORICO = gerarMock();
       renderDashboard();
       toast("Período atualizado — " + MESES[sM] + "/" + sY + " → " + MESES[eM] + "/" + eY + ".");
     }
