@@ -372,6 +372,7 @@
     .btn-refresh:hover:not(:disabled)  { background: var(--s3); border-color: #4a5568; }
     .btn-refresh:disabled              { opacity: .4; cursor: not-allowed; }
     .btn-refresh.success               { border-color: var(--grn); color: var(--grn); }
+    .btn-refresh.cooldown              { border-color: #F59E0B;   color: #F59E0B; }
 
     .icon-spin { display: inline-block; animation: spin .8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -949,6 +950,22 @@
       localStorage.setItem("trinus_contadores", JSON.stringify(d));
     }
 
+    // ── Cooldown de 2 minutos por dataset (evita 429 simultâneo) ─
+    function loadCooldowns() {
+      try {
+        const s = localStorage.getItem("trinus_cooldowns");
+        if (!s) return {};
+        const d = JSON.parse(s);
+        const now = Date.now();
+        Object.keys(d).forEach(k => { if (d[k] <= now) delete d[k]; });
+        return d;
+      } catch { return {}; }
+    }
+
+    function saveCooldowns() {
+      localStorage.setItem("trinus_cooldowns", JSON.stringify(cardCooldown));
+    }
+
     // ════════════════════════════════════════════════════════════
     // ESTADO GLOBAL
     // ════════════════════════════════════════════════════════════
@@ -1084,6 +1101,15 @@
         document.getElementById("errorView").style.display = "block";
         return;
       }
+      // Verificar cooldown
+      if (cardCooldown[dsId] && Date.now() < cardCooldown[dsId]) {
+        const sec = Math.ceil((cardCooldown[dsId] - Date.now()) / 1000);
+        document.getElementById("errorDetail").textContent =
+          "Este dataset está em cooldown. Aguarde " + sec + " segundos antes de solicitar novamente.";
+        document.getElementById("formView").style.display  = "none";
+        document.getElementById("errorView").style.display = "block";
+        return;
+      }
 
       const btn = document.getElementById("btnSubmit");
       btn.disabled = true;
@@ -1107,6 +1133,8 @@
       } else { await delay(1200); }
 
       incrementarContador(dsId);
+      cardCooldown[dsId] = Date.now() + 120 * 1000;  // cooldown de 2 minutos
+      saveCooldowns();
       const restante = getRestante(dsId);
       const dt = document.getElementById("datetimeLabel").textContent;
       document.getElementById("successDetail").innerHTML =
@@ -1130,9 +1158,10 @@
     // ════════════════════════════════════════════════════════════
     // ABA — PAINEL
     // ════════════════════════════════════════════════════════════
-    const cardState  = {};
-    const cardLastTs = {};
-    const cardErrMsg = {};
+    const cardState    = {};
+    const cardLastTs   = {};
+    const cardErrMsg   = {};
+    const cardCooldown = loadCooldowns(); // expiry timestamps (ms) por dataset
 
     function renderGrid() {
       const grid = document.getElementById("grid");
@@ -1147,24 +1176,36 @@
     }
 
     function buildCard(ds) {
-      const s        = cardState[ds.id] || "idle";
-      const restante = getRestante(ds.id);
-      const bloq     = restante === 0 && s === "idle";
+      const s          = cardState[ds.id] || "idle";
+      const restante   = getRestante(ds.id);
+      const cdExp      = cardCooldown[ds.id];
+      const cdSec      = (cdExp && s === "idle") ? Math.max(0, Math.ceil((cdExp - Date.now()) / 1000)) : 0;
+      const onCooldown = cdSec > 0;
+      const bloq       = (restante === 0 || onCooldown) && s === "idle";
 
       const ts = s === "error"   ? "Falha: " + (cardErrMsg[ds.id] || "erro ao disparar")
                : s === "running" ? "Aguardando resposta do servidor..."
+               : onCooldown      ? "Cooldown ativo — aguarde " + cdSec + "s"
                : cardLastTs[ds.id] ? "Atualizado em: " + cardLastTs[ds.id]
                : "Nunca atualizado";
 
-      const lbl = { idle: bloq ? "BLOQUEADO" : "AGUARDANDO", running:"ATUALIZANDO", success:"ATUALIZADO", error:"ERRO" };
+      const idleLbl = onCooldown ? "COOLDOWN" : restante === 0 ? "BLOQUEADO" : "AGUARDANDO";
+      const lbl = { idle: idleLbl, running:"ATUALIZANDO", success:"ATUALIZADO", error:"ERRO" };
 
       // Badge do limite diário
       const limitClass = restante === 0 ? "limit-zero" : restante <= 2 ? "limit-low" : "limit-ok";
       const limitBadge = `<span class="card-limit ${limitClass}">${restante}/${LIMITE_DIARIO} hoje</span>`;
 
-      const btnTxt = s === "running" ? "Atualizando..." : bloq ? "Limite atingido" : "Atualizar";
-      const ico    = s === "running"
+      const btnTxt = s === "running" ? "Atualizando..."
+                   : restante === 0  ? "Limite atingido"
+                   : onCooldown      ? "Aguardar " + cdSec + "s"
+                   : "Atualizar";
+
+      const btnClass = s === "success" ? "success" : onCooldown ? "cooldown" : "";
+      const ico = s === "running"
         ? `<span class="icon-spin">↻</span>`
+        : onCooldown
+        ? `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`
         : `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>`;
 
       return `
@@ -1180,7 +1221,7 @@
           <span class="card-ts ${s === "error" ? "card-err-msg" : ""}">${ts}</span>
           <div style="display:flex;align-items:center;gap:8px">
             ${limitBadge}
-            <button class="btn-refresh ${s === "success" ? "success" : ""}"
+            <button class="btn-refresh ${btnClass}"
               onclick="triggerRefresh('${ds.id}')"
               ${s === "running" || bloq ? "disabled" : ""}>
               ${ico} ${btnTxt}
@@ -1203,6 +1244,11 @@
         toast("⛔ Limite diário de " + LIMITE_DIARIO + " atualizações atingido para este dataset.");
         return;
       }
+      if (cardCooldown[id] && Date.now() < cardCooldown[id]) {
+        const sec = Math.ceil((cardCooldown[id] - Date.now()) / 1000);
+        toast("⏱ Aguarde " + sec + "s antes de atualizar novamente.");
+        return;
+      }
       const ds = DATASETS.find(d => d.id === id);
       if (!ds) return;
       cardState[id] = "running"; updateCard(id);
@@ -1216,6 +1262,8 @@
 
     function markOk(id) {
       incrementarContador(id);
+      cardCooldown[id] = Date.now() + 120 * 1000;  // cooldown de 2 minutos
+      saveCooldowns();
       cardState[id]  = "success";
       cardLastTs[id] = new Date().toLocaleString("pt-BR");
       delete cardErrMsg[id];
@@ -1531,6 +1579,21 @@
     renderDashboard();
     renderConfigTable();
     popularPeriodSelects();
+
+    // Atualiza contagem regressiva do cooldown a cada segundo
+    setInterval(() => {
+      const now = Date.now();
+      DATASETS.forEach(ds => {
+        if (!cardCooldown[ds.id]) return;
+        if (now >= cardCooldown[ds.id]) {
+          delete cardCooldown[ds.id];
+          saveCooldowns();
+        }
+        if (cardState[ds.id] === "idle" || cardState[ds.id] === undefined) {
+          updateCard(ds.id);
+        }
+      });
+    }, 1000);
   </script>
 </body>
 </html>
