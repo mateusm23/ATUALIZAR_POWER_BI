@@ -871,6 +871,11 @@
     // ════════════════════════════════════════════════════════════
     // ESTADO GLOBAL
     // ════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════
+    // MOCK DATA
+    // ════════════════════════════════════════════════════════════
+    const USUARIOS_MOCK = ["Mateus Monteiro","João Silva","Maria Oliveira","Pedro Santos","Ana Costa"];
+
     let DATASETS    = loadDatasets();
     let DASH_CONFIG = loadConfig();
     let HISTORICO   = gerarMock();
@@ -880,11 +885,6 @@
     let pendingTab    = null;
     let editingDsId   = null;   // null = novo, string = editando
     let deletingDsId  = null;   // id aguardando confirmação
-
-    // ════════════════════════════════════════════════════════════
-    // MOCK DATA
-    // ════════════════════════════════════════════════════════════
-    const USUARIOS_MOCK = ["Mateus Monteiro","João Silva","Maria Oliveira","Pedro Santos","Ana Costa"];
 
     function gerarMock() {
       const hist  = [];
