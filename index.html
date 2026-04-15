@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Trinus Capital — Power BI</title>
+  <style>
+    /* ── RESET & VARIÁVEIS ────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:    #0B0F1A;
+      --s1:    #111827;
+      --s2:    #1F2937;
+      --s3:    #374151;
+      --bd:    #2D3748;
+      --azul:  #3B82F6;
+      --azul2: #2563EB;
+      --txt:   #F1F5F9;
+      --mut:   #64748B;
+      --grn:   #10B981;
+      --red:   #EF4444;
+      --r:     10px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--txt);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ──────────────────────────────────────────────── */
+    header {
+      background: var(--s1);
+      border-bottom: 2px solid var(--azul);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .logo-badge {
+      background: var(--azul);
+      color: #fff;
+      font-weight: 900;
+      font-size: 14px;
+      padding: 5px 11px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+
+    .logo-title    { font-size: 15px; font-weight: 600; line-height: 1.2; }
+    .logo-subtitle { font-size: 11px; color: var(--mut); }
+
+    /* ── NAV TABS ────────────────────────────────────────────── */
+    .nav-tabs {
+      display: flex;
+      height: 100%;
+      align-items: flex-end;
+      gap: 2px;
+    }
+
+    .nav-tab {
+      background: none;
+      border: none;
+      color: var(--mut);
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color .2s, border-color .2s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .nav-tab:hover          { color: var(--txt); }
+    .nav-tab.active         { color: var(--azul); border-bottom-color: var(--azul); }
+
+    .lock-icon { color: var(--mut); opacity: .6; flex-shrink: 0; }
+
+    /* ── MAIN ────────────────────────────────────────────────── */
+    main {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    .tab-pane        { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* ── SECTION LABEL ───────────────────────────────────────── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--mut);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--bd);
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       MODAL DE AUTENTICAÇÃO
+    ════════════════════════════════════════════════════════════ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.show { display: flex; }
+
+    .modal-card {
+      background: var(--s1);
+      border: 1px solid var(--bd);
+      border-radius: var(--r);
+      padding: 36px 40px;
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+
+    .modal-icon {
+      width: 52px; height: 52px;
+      background: rgba(59,130,246,.10);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      color: var(--azul);
+    }
+
+    .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .modal-sub   { font-size: 13px; color: var(--mut); margin-bottom: 24px; line-height: 1.5; }
+
+    .modal-input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--bd);
+      border-radius: 8px;
+      font-size: 16px;
+      color: var(--txt);
+      background: var(--s2);
+      outline: none;
+      font-family: inherit;
+      text-align: center;
+      letter-spacing: 6px;
+      margin-bottom: 10px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .modal-input:focus {
+      border-color: var(--azul);
+      box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+    }
+
+    .modal-input.shake {
+      animation: shake .3s ease;
+      border-color: var(--red);
+    }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%,60%  { transform: translateX(-6px); }
+      40%,80%  { transform: translateX(6px); }
+    }
+
+    .modal-error {
+      font-size: 12px;
+      color: var(--red);
+      height: 16px;
+      margin-bottom: 10px;
+    }
+
+    .modal-cancel {
+      background: none;
+      border: none;
+      color: var(--mut);
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 14px;
+      font-family: inherit;
+      transition: color .2s;
+    }
+
+    .modal-cancel:hover { color: var(--txt); }
+
+    /* ════════════════════════════════════════════════════════════
+       ABA — SOLICITAR
+    ════════════════════════════════════════════════════════════ */
+    .form-wrap {
+      display: flex;
+      justify-content: center;
+      padding-top: 12px;
+    }
+
+    .form-card {
+      background: var(--s1);
+      border: 1px solid var(--bd);
+      border-radius: var(--r);
+      padding: 36px 40px;
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .form-icon {
+      width: 42px; height: 42px;
+      background: rgba(59,130,246,.10);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--azul);
+      margin-bottom: 14px;
+    }
+
+    .form-title    { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .form-subtitle { font-size: 13px; color: var(--mut); margin-bottom: 28px; line-height: 1.5; }
+
+    .form-group { margin-bottom: 18px; }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      color: var(--mut);
+      margin-bottom: 7px;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--bd);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--txt);
+      background: var(--s2);
+      outline: none;
+      font-family: inherit;
+      appearance: none;
+      transition: border-color .2s, background .2s;
+    }
+
+    .form-input::placeholder { color: var(--s3); }
+
+    .form-input:focus,
+    .form-select:focus {
+      border-color: var(--azul);
+      background: var(--s1);
+      box-shadow: 0 0 0 3px rgba(59,130,246,.10);
+    }
+
+    .select-wrap         { position: relative; }
+    .select-wrap::after  {
+      content: '';
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--mut);
+      pointer-events: none;
+    }
+
+    .datetime-field {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--bd);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--mut);
+      background: var(--s2);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: var(--azul);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background .2s;
+    }
+
+    .btn-primary:hover:not(:disabled) { background: var(--azul2); }
+    .btn-primary:disabled              { opacity: .4; cursor: not-allowed; }
+
+    /* success */
+    .success-view  { display: none; text-align: center; }
+
+    .success-circle {
+      width: 56px; height: 56px;
+      background: rgba(16,185,129,.12);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      color: var(--grn);
+    }
+
+    .success-title  { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .success-detail { font-size: 13px; color: var(--mut); margin-bottom: 22px; line-height: 1.6; }
+
+    .info-box {
+      background: rgba(59,130,246,.06);
+      border: 1px solid rgba(59,130,246,.2);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      text-align: left;
+      color: var(--azul);
+    }
+
+    .info-box-text        { font-size: 13px; line-height: 1.5; color: var(--txt); }
+    .info-box-text strong { color: var(--azul); display: block; margin-bottom: 2px; }
+
+    .btn-link {
+      background: none;
+      border: 1.5px solid var(--bd);
+      color: var(--mut);
+      padding: 8px 20px;
+      border-radius: 7px;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+      margin-top: 18px;
+      transition: border-color .2s, color .2s;
+    }
+
+    .btn-link:hover { border-color: var(--azul); color: var(--azul); }
+
+    /* ════════════════════════════════════════════════════════════
+       ABA — PAINEL
+    ════════════════════════════════════════════════════════════ */
+    .painel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .painel-header .section-label { margin-bottom: 0; flex: 1; }
+
+    .btn-secondary {
+      background: var(--azul);
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+      transition: background .2s;
+    }
+
+    .btn-secondary:hover            { background: var(--azul2); }
+    .btn-secondary:disabled         { opacity: .4; cursor: not-allowed; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--s1);
+      border: 1px solid var(--bd);
+      border-radius: var(--r);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color .2s;
+    }
+
+    .card:hover          { border-color: #3a4a60; }
+    .card.running        { border-color: var(--azul); }
+    .card.success        { border-color: var(--grn); }
+    .card.error          { border-color: var(--red); }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .card-info { flex: 1; min-width: 0; }
+
+    .card-name {
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-ws {
+      font-size: 11px;
+      color: var(--mut);
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .badge-idle    { background: var(--s3); color: var(--mut); }
+    .badge-running { background: rgba(59,130,246,.15);  color: var(--azul); border: 1px solid rgba(59,130,246,.3); }
+    .badge-success { background: rgba(16,185,129,.15);  color: var(--grn);  border: 1px solid rgba(16,185,129,.3); }
+    .badge-error   { background: rgba(239,68,68,.15);   color: var(--red);  border: 1px solid rgba(239,68,68,.3); }
+
+    .progress-wrap { height: 2px; background: var(--s3); border-radius: 2px; overflow: hidden; }
+    .progress-bar  { height: 100%; width: 0%; border-radius: 2px; transition: width .4s; }
+    .progress-bar.running { background: var(--azul); animation: slide 1.4s infinite; width: 100%; }
+    .progress-bar.success { background: var(--grn);  width: 100%; }
+    .progress-bar.error   { background: var(--red);  width: 100%; }
+
+    @keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-ts { font-size: 11px; color: var(--mut); }
+
+    .btn-refresh {
+      background: var(--s2);
+      border: 1px solid var(--bd);
+      color: var(--txt);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background .2s, border-color .2s;
+      white-space: nowrap;
+    }
+
+    .btn-refresh:hover:not(:disabled)  { background: var(--s3); border-color: #4a5568; }
+    .btn-refresh:disabled              { opacity: .4; cursor: not-allowed; }
+    .btn-refresh.success               { border-color: var(--grn); color: var(--grn); }
+
+    .icon-spin { display: inline-block; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ════════════════════════════════════════════════════════════
+       ABA — DASHBOARD
+    ════════════════════════════════════════════════════════════ */
+
+    /* KPIs */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--s1);
+      border: 1px solid var(--bd);
+      border-radius: var(--r);
+      padding: 18px 20px;
+    }
+
+    .kpi-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--mut);
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--azul);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .kpi-sub { font-size: 11px; color: var(--mut); }
+
+    /* Charts */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .chart-card {
+      background: var(--s1);
+      border: 1px solid var(--bd);
+      border-radius: var(--r);
+      padding: 20px;
+    }
+
+    .chart-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--mut);
+      margin-bottom: 16px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 9px;
+    }
+
+    .bar-label {
+      font-size: 12px;
+      color: var(--txt);
+      width: 170px;
+      flex-shrink: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 16px;
+      background: var(--s3);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--azul);
+      border-radius: 3px;
+      min-width: 4px;
+      transition: width .6s ease;
+    }
+
+    .bar-value {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--txt);
+      width: 30px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Heat Map */
+    .heatmap-card {
+      background: var(--s1);
+      border: 1px solid var(--bd);
+      border-radius: var(--r);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .heatmap-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--mut);
+      margin-bottom: 16px;
+    }
+
+    .heatmap-scroll { overflow-x: auto; padding-bottom: 4px; }
+
+    .hm-table {
+      border-collapse: separate;
+      border-spacing: 3px;
+      white-space: nowrap;
+    }
+
+    .hm-blank  { min-width: 190px; }
+
+    .hm-month {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--mut);
+      padding: 0 4px 8px;
+    }
+
+    .hm-day {
+      text-align: center;
+      font-size: 9px;
+      color: var(--s3);
+      padding: 0 0 4px;
+      width: 22px;
+    }
+
+    .hm-name {
+      text-align: right;
+      padding: 0 12px 0 0;
+      font-size: 12px;
+      color: var(--txt);
+      font-weight: 500;
+      position: sticky;
+      left: 0;
+      background: var(--s1);
+      z-index: 2;
+      min-width: 190px;
+    }
+
+    .hm-cell {
+      width: 22px;
+      height: 22px;
+      border-radius: 3px;
+      cursor: default;
+      position: relative;
+    }
+
+    .hm-0 { background: var(--s3); }
+    .hm-1 { background: rgba(59,130,246,.18); }
+    .hm-2 { background: rgba(59,130,246,.42); }
+    .hm-3 { background: rgba(59,130,246,.70); }
+    .hm-4 { background: rgba(59,130,246,.95); }
+
+    .hm-cell:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--s3);
+      color: var(--txt);
+      border: 1px solid var(--bd);
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .hm-legend {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 12px;
+      font-size: 10px;
+      color: var(--mut);
+    }
+
+    .hm-legend-cell { width: 13px; height: 13px; border-radius: 2px; }
+
+    /* ── TOAST ───────────────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      background: var(--s2);
+      border: 1px solid var(--bd);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      max-width: 300px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .25s, transform .25s;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    #toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .kpi-row    { grid-template-columns: repeat(2, 1fr); }
+      .charts-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      header     { padding: 0 16px; gap: 12px; }
+      .nav-tab   { padding: 10px 12px; font-size: 12px; }
+      .logo-title { display: none; }
+      main       { padding: 20px 14px; }
+      .form-card { padding: 24px 20px; }
+      .modal-card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── MODAL DE AUTENTICAÇÃO ──────────────────────────────── -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-card">
+      <div class="modal-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <div class="modal-title">Área Restrita</div>
+      <div class="modal-sub">Digite a senha para acessar esta seção.</div>
+      <input class="modal-input" type="password" id="loginInput"
+             placeholder="••••••••"
+             onkeydown="if(event.key==='Enter') handleLogin()"
+             autocomplete="off" />
+      <div class="modal-error" id="loginError">Senha incorreta. Tente novamente.</div>
+      <button class="btn-primary" onclick="handleLogin()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Entrar
+      </button>
+      <button class="modal-cancel" onclick="closeLoginModal()">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- ── HEADER ─────────────────────────────────────────────── -->
+  <header>
+    <div class="logo">
+      <div class="logo-badge">TRINUS</div>
+      <div>
+        <div class="logo-title">Portal de Atualização</div>
+        <div class="logo-subtitle">Power BI Datasets</div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="nav-tab active" onclick="setTab(this,'solicitar')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        Solicitar
+      </button>
+      <button class="nav-tab" id="tab-painel" onclick="setTab(this,'painel')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        Painel
+        <svg class="lock-icon" id="lock-painel" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </button>
+      <button class="nav-tab" id="tab-dashboard" onclick="setTab(this,'dashboard')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6"  y1="20" x2="6"  y2="14"/>
+        </svg>
+        Dashboard
+        <svg class="lock-icon" id="lock-dashboard" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ════════════════════════════════════════════════════════
+         ABA — SOLICITAR
+    ════════════════════════════════════════════════════════ -->
+    <div class="tab-pane active" id="pane-solicitar">
+      <div class="form-wrap">
+        <div class="form-card">
+
+          <div id="formView">
+            <div class="form-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <polyline points="23 4 23 10 17 10"/>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+              </svg>
+            </div>
+            <div class="form-title">Solicitar Atualização</div>
+            <div class="form-subtitle">Preencha os campos abaixo para disparar a atualização do relatório.</div>
+
+            <div class="form-group">
+              <label class="form-label">Seu nome</label>
+              <input class="form-input" type="text" id="inputNome"
+                     placeholder="Ex: João Silva" autocomplete="name" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Power BI a ser atualizado</label>
+              <div class="select-wrap">
+                <select class="form-select" id="inputDataset">
+                  <option value="" disabled selected>Selecione o relatório...</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Data e hora da solicitação</label>
+              <div class="datetime-field">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span id="datetimeLabel">—</span>
+              </div>
+            </div>
+
+            <button class="btn-primary" id="btnSubmit" onclick="handleSubmit()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="23 4 23 10 17 10"/>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+              </svg>
+              Solicitar Atualização
+            </button>
+          </div>
+
+          <div class="success-view" id="successView">
+            <div class="success-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <div class="success-title">Atualização solicitada!</div>
+            <div class="success-detail" id="successDetail">—</div>
+            <div class="info-box">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <div class="info-box-text">
+                <strong>Aguarde aproximadamente 5 minutos</strong>
+                O Power BI pode levar alguns minutos para processar e exibir os dados atualizados.
+              </div>
+            </div>
+            <button class="btn-link" onclick="resetForm()">Nova solicitação</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         ABA — PAINEL
+    ════════════════════════════════════════════════════════ -->
+    <div class="tab-pane" id="pane-painel">
+      <div class="painel-header">
+        <div class="section-label">Datasets disponíveis</div>
+        <button class="btn-secondary" id="btnAll" onclick="refreshAll()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          Atualizar Todos
+        </button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         ABA — DASHBOARD
+    ════════════════════════════════════════════════════════ -->
+    <div class="tab-pane" id="pane-dashboard">
+      <div class="section-label" style="margin-bottom:20px">Acompanhamento de Atualizações</div>
+
+      <div class="kpi-row" id="kpiRow"></div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-title">Atualizações por Dataset</div>
+          <div id="chartDataset"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Atualizações por Usuário</div>
+          <div id="chartUsuario"></div>
+        </div>
+      </div>
+
+      <div class="heatmap-card">
+        <div class="heatmap-title">Matriz de Atualizações por Obra</div>
+        <div class="heatmap-scroll">
+          <table class="hm-table" id="hmTable"></table>
+        </div>
+        <div class="hm-legend">
+          Menos
+          <div class="hm-legend-cell hm-0"></div>
+          <div class="hm-legend-cell hm-1"></div>
+          <div class="hm-legend-cell hm-2"></div>
+          <div class="hm-legend-cell hm-3"></div>
+          <div class="hm-legend-cell hm-4"></div>
+          Mais
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div id="toast"></div>
+
+  <script>
+    // ════════════════════════════════════════════════════════════
+    // CONFIGURAÇÃO DE DATASETS
+    // ════════════════════════════════════════════════════════════
+    const DATASETS = [
+      {
+        id: "visao-portfolio",
+        name: "VISÃO DE PORTFOLIO",
+        workspace: "PORTFOLIO - TRINUS",
+        flowUrl: "https://0d71363c8a5ce7e19f8bf405b0752f.e3.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/a429dc52f1824f00b35e275693ca8301/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=GLbNnuGbq61xHONprlUHHnHyXkKFvfHjYIMn19WygEs"
+      },
+      { id: "obra-alfa",  name: "OBRA ALFA — DRE",          workspace: "OBRAS - TRINUS",    flowUrl: "" },
+      { id: "obra-beta",  name: "OBRA BETA — DASHBOARD",    workspace: "OBRAS - TRINUS",    flowUrl: "" },
+      { id: "obra-gama",  name: "OBRA GAMA — FINANCEIRO",   workspace: "OBRAS - TRINUS",    flowUrl: "" },
+      { id: "obra-delta", name: "OBRA DELTA — VENDAS",      workspace: "OBRAS - TRINUS",    flowUrl: "" },
+      { id: "obra-eps",   name: "OBRA EPSILON — RH",        workspace: "RH - TRINUS",       flowUrl: "" },
+      { id: "obra-zeta",  name: "OBRA ZETA — CONTRATOS",    workspace: "JURÍDICO - TRINUS", flowUrl: "" },
+      { id: "fundos",     name: "FUNDOS — CAPTAÇÃO",        workspace: "FUNDOS - TRINUS",   flowUrl: "" },
+    ];
+
+    // ════════════════════════════════════════════════════════════
+    // DADOS MOCK — substituir por historico.json do GitHub
+    // ════════════════════════════════════════════════════════════
+    const USUARIOS_MOCK = ["Mateus Monteiro", "João Silva", "Maria Oliveira", "Pedro Santos", "Ana Costa"];
+
+    function gerarMock() {
+      const hist  = [];
+      const rng   = n => Math.floor(Math.random() * n);
+      const start = new Date("2026-03-01T00:00:00");
+      const end   = new Date("2026-04-15T23:59:59");
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        DATASETS.forEach(ds => {
+          const qtd = Math.random() < 0.30 ? rng(3) + 1 : 0;
+          for (let i = 0; i < qtd; i++) {
+            const ts = new Date(d.getTime() + 28800000 + rng(32400000));
+            hist.push({
+              timestamp:   ts.toISOString(),
+              datasetId:   ds.id,
+              datasetName: ds.name,
+              usuario:     USUARIOS_MOCK[rng(USUARIOS_MOCK.length)],
+              status:      Math.random() < 0.93 ? "sucesso" : "erro"
+            });
+          }
+        });
+      }
+      return hist;
+    }
+
+    const HISTORICO = gerarMock();
+
+    // ════════════════════════════════════════════════════════════
+    // AUTENTICAÇÃO
+    // ════════════════════════════════════════════════════════════
+    let autenticado   = false;
+    let pendingBtn    = null;
+    let pendingTab    = null;
+    const RESTRICTED  = ["painel", "dashboard"];
+    const SENHA       = "mateus";
+
+    function setTab(btn, name) {
+      if (RESTRICTED.includes(name) && !autenticado) {
+        pendingBtn = btn;
+        pendingTab = name;
+        openLoginModal();
+        return;
+      }
+      navegarPara(btn, name);
+    }
+
+    function navegarPara(btn, name) {
+      document.querySelectorAll(".nav-tab").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("pane-" + name).classList.add("active");
+    }
+
+    function openLoginModal() {
+      document.getElementById("loginInput").value = "";
+      document.getElementById("loginError").style.visibility = "hidden";
+      document.getElementById("loginModal").classList.add("show");
+      setTimeout(() => document.getElementById("loginInput").focus(), 80);
+    }
+
+    function closeLoginModal() {
+      document.getElementById("loginModal").classList.remove("show");
+      pendingBtn = null;
+      pendingTab = null;
+    }
+
+    function handleLogin() {
+      const val = document.getElementById("loginInput").value;
+      if (val === SENHA) {
+        autenticado = true;
+        document.getElementById("loginModal").classList.remove("show");
+        // Remove cadeados
+        document.getElementById("lock-painel").style.display    = "none";
+        document.getElementById("lock-dashboard").style.display = "none";
+        // Navega para a aba pendente
+        if (pendingBtn && pendingTab) {
+          navegarPara(pendingBtn, pendingTab);
+        }
+        pendingBtn = null;
+        pendingTab = null;
+      } else {
+        const inp = document.getElementById("loginInput");
+        document.getElementById("loginError").style.visibility = "visible";
+        inp.classList.remove("shake");
+        void inp.offsetWidth; // reflow para reiniciar a animação
+        inp.classList.add("shake");
+        inp.value = "";
+        inp.focus();
+      }
+    }
+
+    // Fechar modal ao clicar fora
+    document.getElementById("loginModal").addEventListener("click", function(e) {
+      if (e.target === this) closeLoginModal();
+    });
+
+    // ════════════════════════════════════════════════════════════
+    // ABA SOLICITAR
+    // ════════════════════════════════════════════════════════════
+    const selDs = document.getElementById("inputDataset");
+    DATASETS.forEach(ds => {
+      const opt       = document.createElement("option");
+      opt.value       = ds.id;
+      opt.textContent = ds.name;
+      selDs.appendChild(opt);
+    });
+
+    function tick() {
+      document.getElementById("datetimeLabel").textContent =
+        new Date().toLocaleString("pt-BR", {
+          weekday: "short", day: "2-digit", month: "short",
+          year: "numeric", hour: "2-digit", minute: "2-digit"
+        });
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    async function handleSubmit() {
+      const nome = document.getElementById("inputNome").value.trim();
+      const dsId = document.getElementById("inputDataset").value;
+      if (!nome) { document.getElementById("inputNome").focus();    return; }
+      if (!dsId) { document.getElementById("inputDataset").focus(); return; }
+
+      const ds  = DATASETS.find(d => d.id === dsId);
+      const btn = document.getElementById("btnSubmit");
+      btn.disabled = true;
+      btn.innerHTML = `<span class="icon-spin">↻</span> Enviando...`;
+
+      if (ds.flowUrl) {
+        try {
+          await fetch(ds.flowUrl, { method: "POST", mode: "no-cors" });
+        } catch (e) {
+          if (!(e instanceof TypeError)) {
+            btn.disabled = false;
+            btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Solicitar Atualização`;
+            toast("Erro ao disparar atualização. Tente novamente.");
+            return;
+          }
+        }
+      } else {
+        await delay(1200);
+      }
+
+      const dt = document.getElementById("datetimeLabel").textContent;
+      document.getElementById("successDetail").innerHTML =
+        `<strong style="color:var(--txt)">${nome}</strong><br>${ds.name}<br>${dt}`;
+      document.getElementById("formView").style.display    = "none";
+      document.getElementById("successView").style.display = "block";
+    }
+
+    function resetForm() {
+      document.getElementById("inputNome").value    = "";
+      document.getElementById("inputDataset").value = "";
+      const btn = document.getElementById("btnSubmit");
+      btn.disabled = false;
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Solicitar Atualização`;
+      document.getElementById("formView").style.display    = "block";
+      document.getElementById("successView").style.display = "none";
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // ABA PAINEL — CARDS
+    // ════════════════════════════════════════════════════════════
+    const cardState  = {};
+    const cardLastTs = {};
+
+    function renderGrid() {
+      const grid = document.getElementById("grid");
+      grid.innerHTML = "";
+      DATASETS.forEach(ds => {
+        cardState[ds.id] = cardState[ds.id] || "idle";
+        const el = document.createElement("div");
+        el.id        = "card-" + ds.id;
+        el.className = "card";
+        el.innerHTML = buildCard(ds);
+        grid.appendChild(el);
+      });
+    }
+
+    function buildCard(ds) {
+      const s   = cardState[ds.id] || "idle";
+      const ts  = cardLastTs[ds.id] ? "Última: " + cardLastTs[ds.id] : "Nunca atualizado";
+      const lbl = { idle: "AGUARDANDO", running: "ATUALIZANDO", success: "ATUALIZADO", error: "ERRO" };
+      const btnTxt = s === "running" ? "Atualizando..." : "Atualizar";
+      const icon   = s === "running"
+        ? `<span class="icon-spin">↻</span>`
+        : `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>`;
+      return `
+        <div class="card-header">
+          <div class="card-info">
+            <div class="card-name" title="${ds.name}">${ds.name}</div>
+            <div class="card-ws">${ds.workspace}</div>
+          </div>
+          <span class="badge badge-${s}">${lbl[s]}</span>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-bar ${s !== "idle" ? s : ""}"></div>
+        </div>
+        <div class="card-footer">
+          <span class="card-ts">${ts}</span>
+          <button class="btn-refresh ${s === "success" ? "success" : ""}"
+            onclick="triggerRefresh('${ds.id}')"
+            ${s === "running" ? "disabled" : ""}>
+            ${icon} ${btnTxt}
+          </button>
+        </div>`;
+    }
+
+    function updateCard(id) {
+      const ds = DATASETS.find(d => d.id === id);
+      const el = document.getElementById("card-" + id);
+      if (!ds || !el) return;
+      el.className = "card" + (cardState[id] !== "idle" ? " " + cardState[id] : "");
+      el.innerHTML = buildCard(ds);
+    }
+
+    async function triggerRefresh(id) {
+      if (cardState[id] === "running") return;
+      const ds = DATASETS.find(d => d.id === id);
+      if (!ds) return;
+      cardState[id] = "running";
+      updateCard(id);
+      document.getElementById("btnAll").disabled = true;
+      if (ds.flowUrl) {
+        try {
+          await fetch(ds.flowUrl, { method: "POST", mode: "no-cors" });
+          markOk(id);
+        } catch (e) {
+          e instanceof TypeError ? markOk(id) : markErr(id, e.message);
+        }
+      } else {
+        await delay(1800);
+        markOk(id);
+      }
+      document.getElementById("btnAll").disabled = false;
+    }
+
+    function markOk(id) {
+      cardState[id]  = "success";
+      cardLastTs[id] = new Date().toLocaleString("pt-BR");
+      updateCard(id);
+      toast("✓ " + DATASETS.find(d => d.id === id)?.name + " — refresh disparado.");
+      setTimeout(() => { if (cardState[id] === "success") { cardState[id] = "idle"; updateCard(id); } }, 8000);
+    }
+
+    function markErr(id, msg) {
+      cardState[id] = "error";
+      updateCard(id);
+      toast("✗ Erro: " + msg);
+      setTimeout(() => { if (cardState[id] === "error") { cardState[id] = "idle"; updateCard(id); } }, 8000);
+    }
+
+    async function refreshAll() {
+      document.getElementById("btnAll").disabled = true;
+      for (const ds of DATASETS) { await triggerRefresh(ds.id); await delay(500); }
+      document.getElementById("btnAll").disabled = false;
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // ABA DASHBOARD
+    // ════════════════════════════════════════════════════════════
+    function renderDashboard() {
+      const hist     = HISTORICO;
+      const total    = hist.length;
+      const uniqDs   = new Set(hist.map(h => h.datasetId)).size;
+      const uniqUser = new Set(hist.map(h => h.usuario)).size;
+      const taxa     = total
+        ? Math.round(hist.filter(h => h.status === "sucesso").length / total * 100)
+        : 0;
+
+      document.getElementById("kpiRow").innerHTML =
+        kpiCard("Total de Atualizações", total,       "no período (mock)") +
+        kpiCard("Datasets Ativos",       uniqDs,      "de " + DATASETS.length + " configurados") +
+        kpiCard("Usuários Ativos",       uniqUser,    "usuários únicos") +
+        kpiCard("Taxa de Sucesso",       taxa + "%",  "das execuções");
+
+      const byDs = {};
+      hist.forEach(h => { byDs[h.datasetName] = (byDs[h.datasetName] || 0) + 1; });
+      const maxDs = Math.max(...Object.values(byDs), 1);
+      document.getElementById("chartDataset").innerHTML =
+        Object.entries(byDs).sort((a, b) => b[1] - a[1]).map(([n, c]) => barRow(n, c, maxDs)).join("");
+
+      const byUser = {};
+      hist.forEach(h => { byUser[h.usuario] = (byUser[h.usuario] || 0) + 1; });
+      const maxU = Math.max(...Object.values(byUser), 1);
+      document.getElementById("chartUsuario").innerHTML =
+        Object.entries(byUser).sort((a, b) => b[1] - a[1]).map(([n, c]) => barRow(n, c, maxU)).join("");
+
+      renderHeatmap(hist);
+    }
+
+    function kpiCard(label, value, sub) {
+      return `<div class="kpi-card">
+        <div class="kpi-label">${label}</div>
+        <div class="kpi-value">${value}</div>
+        <div class="kpi-sub">${sub}</div>
+      </div>`;
+    }
+
+    function barRow(name, count, max) {
+      const pct = Math.max(Math.round(count / max * 100), 3);
+      return `<div class="bar-row">
+        <div class="bar-label" title="${name}">${name}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+        <div class="bar-value">${count}</div>
+      </div>`;
+    }
+
+    function renderHeatmap(hist) {
+      const MONTHS = [
+        { year: 2026, idx: 2, label: "MARÇO", days: 31 },
+        { year: 2026, idx: 3, label: "ABRIL", days: 15 },
+      ];
+
+      const lookup = {};
+      DATASETS.forEach(ds => { lookup[ds.id] = {}; });
+      hist.forEach(h => {
+        const d   = new Date(h.timestamp);
+        const key = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
+        if (lookup[h.datasetId]) {
+          lookup[h.datasetId][key] = (lookup[h.datasetId][key] || 0) + 1;
+        }
+      });
+
+      let r1 = `<tr><th class="hm-blank hm-name"></th>`;
+      MONTHS.forEach(m => { r1 += `<th class="hm-month" colspan="${m.days}">${m.label}</th>`; });
+      r1 += `</tr>`;
+
+      let r2 = `<tr><th class="hm-name"></th>`;
+      MONTHS.forEach(m => {
+        for (let d = 1; d <= m.days; d++) r2 += `<th class="hm-day">${d}</th>`;
+      });
+      r2 += `</tr>`;
+
+      let rows = "";
+      DATASETS.forEach(ds => {
+        rows += `<tr><td class="hm-name">${ds.name}</td>`;
+        MONTHS.forEach(m => {
+          for (let d = 1; d <= m.days; d++) {
+            const key   = m.year + "-" + m.idx + "-" + d;
+            const count = (lookup[ds.id] || {})[key] || 0;
+            const lvl   = count === 0 ? 0 : count === 1 ? 1 : count === 2 ? 2 : count === 3 ? 3 : 4;
+            const dd    = String(d).padStart(2, "0");
+            const mm    = String(m.idx + 1).padStart(2, "0");
+            const tip   = count === 0
+              ? `Nenhuma — ${dd}/${mm}`
+              : `${count} atualização${count > 1 ? "ões" : ""} — ${dd}/${mm}`;
+            rows += `<td class="hm-cell hm-${lvl}" data-tip="${tip}"></td>`;
+          }
+        });
+        rows += `</tr>`;
+      });
+
+      document.getElementById("hmTable").innerHTML = r1 + r2 + rows;
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // TOAST
+    // ════════════════════════════════════════════════════════════
+    let toastTimer;
+    function toast(msg) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove("show"), 4000);
+    }
+
+    const delay = ms => new Promise(r => setTimeout(r, ms));
+
+    // ════════════════════════════════════════════════════════════
+    // INIT
+    // ════════════════════════════════════════════════════════════
+    renderGrid();
+    renderDashboard();
+  </script>
+</body>
+</html>
